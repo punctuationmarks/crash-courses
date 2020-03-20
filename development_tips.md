@@ -6,3 +6,9 @@ instead of making environemnt variables on your local machine
 	- Also you can run print()/consol.log() or whatever to manually debug your tests
 
 
+
+- Make sure to always do a commit of working code before a refactor
+
+
+- Paths are important obviously, if your path is "correct" double check to make
+sure it's not missing a starting slash (or sans a slash)

@@ -39,7 +39,6 @@ $ dpkg -l
 # See the structure of a folder's directory system
 ```
 $ tree folderName/
-
 ```
 
 # Get the docs/user manual for a package
@@ -52,9 +51,11 @@ $ man PKG_NAME
 # Making your .gitignore on the fly
 ```
 $ echo "db.sqlite3" >> .gitignore
-$ echo "venv" >> .gitignore
-
+# 
+$ echo /venv >> .gitignore
 ```
+
+# Echo an entire folder
 
 
 # Greg
@@ -70,26 +71,15 @@ $ grep -E "functionName1|orFunctionName2" directoryName/fileName.py
 # Converting .flac files to .wav files in terminal
 _need to install ffmeg_
 ```
-$ for f in *.flac; do ffmpeg -i "$f" "${f%.flac}.wav"; done
+for f in *.flac; do ffmpeg -i "$f" "${f%.flac}.wav"; done
 rm *.flac
 ```
 
 
 # Play audio file from CLI
 ```
-$ omxplayer -o local AUDIO_FILE.mp3
+omxplayer -o local AUDIO_FILE.mp3
 ```
 
 
-# Print all folders in a directory, print them with their size
-```
-$ find . -name "node_modules" -type d -prune -print | xargs du -chs
 
-```
-
-
-# Delete all folders inside the parent directory and print the results
-```
-$ find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
-
-```
