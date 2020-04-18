@@ -1,0 +1,35 @@
+sudo apt update && sudo apt upgrade -y &&
+sudo apt install python3-pip -y && # pip3
+sudo apt install curl -y && # needed for https downloads
+sudo apt update &&
+sudo apt install snapd -y && # needed for all snap installs
+sudo apt install git -y && 
+sudo snap install code --classic &&
+sudo apt install apt-transport-https -y &&  # needed for brave and others
+sudo apt update &&
+sudo pip3 install virtualenv && # preference on virtual environment for python
+sudo apt install -y openvpn dialog python3-pip python3-setuptools &&
+sudo pip3 install protonvpn-cli &&
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 &&
+sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/' &&
+sudo apt update &&
+sudo apt install r-base -y &&
+curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add - &&
+echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list &&
+sudo apt update &&
+sudo apt install brave-browser -y &&
+curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash - && # for nodejs and npm
+sudo apt-get install -y nodejs -y &&
+sudo apt install usb-creator-gtk -y && # for disk creator for iso to usb (needed for minimal ubuntu builds)
+sudo apt-get install ubuntu-drivers-common && 
+sudo ubuntu-drivers autoinstall &&
+snap install spotify && # optional
+sudo apt-get install gdebi-core && # for unpacking .deb
+wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-1.2.5042-amd64.deb && # up-to-date as of April 2020
+sudo gdebi -n rstudio-1.2.5042-amd64.deb && # note, this will install Rstudio in whatever directory you start in
+sudo apt autoremove -y &&
+sudo apt update &&
+sudo apt upgrade -y
+
+
+
