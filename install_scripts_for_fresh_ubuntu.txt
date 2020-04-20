@@ -27,6 +27,8 @@ snap install spotify && # optional
 sudo apt-get install gdebi-core && # for unpacking .deb
 wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-1.2.5042-amd64.deb && # up-to-date as of April 2020
 sudo gdebi -n rstudio-1.2.5042-amd64.deb && # note, this will install Rstudio in whatever directory you start in
+sudo apt install default-jre libreoffice-java-common -y && # needed for libreoffice
+sudo apt install libreoffice-common -y && # needed for minimal ubuntu builds 
 sudo apt autoremove -y &&
 sudo apt update &&
 sudo apt upgrade -y

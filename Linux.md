@@ -36,16 +36,21 @@ $ dpkg -l
 
 ```
 
+# Install .deb download
+```
+$ dpkg -i {package.deb}
+```
+
 # See the structure of a folder's directory system
 ```
-$ tree folderName/
+$ tree {folder}/
 
 ```
 
 # Get the docs/user manual for a package
 
 ```
-$ man PKG_NAME
+$ man {package name}
 
 ```
 
