@@ -12,3 +12,6 @@ instead of making environemnt variables on your local machine
 
 - Paths are important obviously, if your path is "correct" double check to make
 sure it's not missing a starting slash (or sans a slash)
+
+
+- Have a SSH key? Store it on a dedicated USB that's just for import stuff like SSH keys. If you lose your SSH key, that means you have to rebuild the server or let it rot...
