@@ -72,7 +72,7 @@ $ echo "venv" >> .gitignore
 ```
 
 
-# Greg
+# Grep
 # Searching for function names inside files in a specific directory
 
 ```
@@ -106,5 +106,13 @@ $ find . -name "node_modules" -type d -prune -print | xargs du -chs
 # Delete all folders inside the parent directory and print the results
 ```
 $ find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
+
+```
+
+
+
+# View images in the cli with FIM
+```
+$ fim {image.jpg}
 
 ```
