@@ -83,7 +83,12 @@ console.log(variableName);
   - `!=` not equal
     - `5 != 0 // returns true`
   - `!==` strictly not equal
-    - `5 !== '5' // returns true`
+    - `5 !== '5' // returns true
+  - And JS has the other common comparision operators like less than `<`, less than or equal to `<=`, greater than `>`, greater than or equal to `>=` 
+  - These all can be changed together with `&&` (and) or `||` (or)
+
+
+
 
 - Shorthand mathematical functions
 
@@ -144,6 +149,19 @@ const trueOrFalse = (wasThatTrue) => {
   }
     return "No, that was false"
 }
+
+function testElseIf(val) {
+  if (val > 10) {
+    return "Greater than 10";
+  }else if(val < 5) {
+    return "Smaller than 5";
+  } else {
+  return "Between 5 and 10";
+  }
+};
+
+testElseIf(7);
+
 
 ```
 
