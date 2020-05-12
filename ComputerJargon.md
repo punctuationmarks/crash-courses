@@ -4,3 +4,8 @@
 
 # cx, cy, r
 - x and y coordinates from the circle's center, radius
+
+
+
+# Private/local, public/global
+- scope

@@ -18,3 +18,7 @@
 
 - Delete entire line like you're in VIM
 `crtl-shift-k`
+
+
+- To get back to the tree structure of the folders ("explorer")
+`crtl-shift-e`

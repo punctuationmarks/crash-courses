@@ -2,15 +2,23 @@
 # Some things to remember about Git
 
 
+## Terminology
+- HEAD
+	- the commit currenly being worked on
+	- normally points to a branch name
+- Detaching HEAD
+	- attaching the head to a commit instead of a branch
+- ^
+	- adding this after a branch name will signify its parent, add more carrots for grandparents
 
-### Moving files and need to ensure Git keeps track of this?
+- Moving files and need to ensure Git keeps track of this?
 ```
 $ git mv og_file.md ../new_school_file.md
 
 ```
 
 
-### Making your .gitignore on the fly
+- Making your .gitignore on the fly
 ```
 $ echo "db.sqlite3" >> .gitignore
 $ echo "venv" >> .gitignore
@@ -18,24 +26,13 @@ $ echo "venv" >> .gitignore
 ```
 
 
-
-
-### reset entire tree
-
+- Initializing a git project
 ```
-git reset --hard;git clean -df
-```
-
-
-
-
-### Initializing a git project
-```
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ git init .
+$ git init .
 Initialized empty Git repository in /home/punctuationmarks/Projects/Classes/Django/ObeyTheTestingGoat/.git/
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ ls
+$ ls
 crud  db.sqlite3  funtional_tests.py  geckodriver.log  manage.py  venv
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ ls -la
+$ ls -la
 total 52
 drwxr-xr-x 6 punctuationmarks punctuationmarks  4096 Feb 24 13:45 .
 drwxr-xr-x 6 punctuationmarks punctuationmarks  4096 Feb 14 08:30 ..
@@ -47,14 +44,14 @@ drwxr-xr-x 7 punctuationmarks punctuationmarks  4096 Feb 24 13:45 .git
 -rwxr-xr-x 1 punctuationmarks punctuationmarks   802 Feb 24 13:41 manage.py
 drwxr-xr-x 6 punctuationmarks punctuationmarks  4096 Feb 24 13:13 venv
 drwxrwxr-x 2 punctuationmarks punctuationmarks  4096 Feb 14 08:33 .vscode
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ echo "db.sqlite3" >> .gitignore
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ echo "geckodriver.log" >> .gitignore 
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ echo "venv/*" >> .gitignore 
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ nano .gitignore 
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ nano .gitignore 
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ echo "venv" >> .gitignore 
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ git add .
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ git status 
+$ echo "db.sqlite3" >> .gitignore
+$ echo "geckodriver.log" >> .gitignore 
+$ echo "venv/*" >> .gitignore 
+$ nano .gitignore 
+$ nano .gitignore 
+$ echo "venv" >> .gitignore 
+$ git add .
+$ git status 
 On branch master
 
 No commits yet
@@ -75,14 +72,14 @@ Changes to be committed:
 	new file:   funtional_tests.py
 	new file:   manage.py
 
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ git rm -r --cached crud/__pycache__
+$ git rm -r --cached crud/__pycache__
 rm 'crud/__pycache__/__init__.cpython-36.pyc'
 rm 'crud/__pycache__/settings.cpython-36.pyc'
 rm 'crud/__pycache__/urls.cpython-36.pyc'
 rm 'crud/__pycache__/wsgi.cpython-36.pyc'
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ echo "__pycache__" >> .gitignore
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ echo "*.pyc" >> .gitignore 
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ git status
+$ echo "__pycache__" >> .gitignore
+$ echo "*.pyc" >> .gitignore 
+$ git status
 On branch master
 
 No commits yet
@@ -105,10 +102,10 @@ Changes not staged for commit:
 
 	modified:   .gitignore
 
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ git add .gitignore 
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ git commit
+$ git add .gitignore 
+$ git commit
 Aborting commit due to empty commit message.
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ git commit -m "initial commit"
+$ git commit -m "initial commit"
 [master (root-commit) 32c694d] initial commit
  8 files changed, 193 insertions(+)
  create mode 100644 .gitignore
@@ -121,7 +118,7 @@ Aborting commit due to empty commit message.
  create mode 100755 manage.py
 
 
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ git status
+$ git status
 On branch master
 Changes not staged for commit:
   (use "git add/rm <file>..." to update what will be committed)
@@ -135,7 +132,7 @@ Untracked files:
 	functional_tests.py
 
 no changes added to commit (use "git add" and/or "git commit -a")
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ git diff
+$ git diff
 diff --git a/funtional_tests.py b/funtional_tests.py
 deleted file mode 100644
 index df73c70..0000000
@@ -148,20 +145,20 @@ index df73c70..0000000
 -browser.get('http://localhost:8000')
 -
 -assert 'Django' in browser.title
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ git commit -a
+$ git commit -a
 [master 71a392a] Just making the functional_tests.py more robust
  1 file changed, 6 deletions(-)
  delete mode 100644 funtional_tests.py
-(venv) punctuationmarks@ddoublespeak:~/Projects/Classes/Django/ObeyTheTestingGoat$ 
+$ 
 
 
 ```
 
 
-## Seeing what actually happened in your logs (`--oneline` is optional)
+- Seeing what actually happened in your logs (`--oneline` is optional)
 
 ```
-punctuationmarks@ddoublespeak:~/Projects/Classes$ git log --oneline
+$ git log --oneline
 bd966d91 (HEAD -> master) ...
 c556e874 (origin/master, origin/HEAD) ...
 866a8933 lots added
@@ -188,11 +185,11 @@ efb091e8 learning laravel
 
 
 
-## Shortcut with `-am`, it's the fastest way to commit, but also the least visual feedback so make sure you're checking `status` and `diff` before commiting
+- Shortcut with `-am`, it's the fastest way to commit, but also the least visual feedback so make sure you're checking `status` and `diff` before commiting
 
 ```
 
-punctuationmarks@ddoublespeak:~/Projects/Classes$ git diff
+$ git diff
 diff --git a/Django/ObeyTheTestingGoat/crud/urls.py b/Django/ObeyTheTestingGoat/crud/urls.py
 index 3fde7e08..b76788d9 100644
 --- a/Django/ObeyTheTestingGoat/crud/urls.py
@@ -245,7 +242,7 @@ diff --git a/Stolen_from_Corey_schafer/code_snippets b/Stolen_from_Corey_schafer
 @@ -1 +1 @@
 -Subproject commit b2ba29df2f081b1ccf165241125697c1ac042b24
 +Subproject commit b2ba29df2f081b1ccf165241125697c1ac042b24-dirty
-punctuationmarks@ddoublespeak:~/Projects/Classes$ git commit -am "...
+$ git commit -am "...
 > "
 [master bd966d91] ...
  4 files changed, 12 insertions(+), 3 deletions(-)
@@ -253,8 +250,81 @@ punctuationmarks@ddoublespeak:~/Projects/Classes$ git commit -am "...
 
 ```
 
+# Branches and Merging
+
+- Making a new branch
+```
+$ git branch {newBranch}
+```
+
+- Selecting/checking out a branch
+```
+$ git checkout {branchName}
+```
+
+- Making and selecting the new branch
+```
+$ git checkout -b {newBranch}
+```
+
+## Merging
+- Merging makes a commit with two "parent" commits, combingin them (used for experimental development)
+Showing two branches, separately committed and then merging the first with the second
+```
+$ git checkout -b {branchName}
+$ git commit
+$ git checkout master
+$ git commit
+$ git merge {branchName}
+```
 
 
+
+
+## Rebasing
+- If you want a branch to seem that it was developed sequentially opposed to separately, then "rebase" the branch onto the master branch
+Showing two branches, separately committed and then rebasing the checked out {branchName} with master
+```
+$ git checkout -b {branchName}
+$ git commit 
+$ git checkout master
+$ git commit
+$ git checkout {branchName}
+$ git rebase master
+```
+
+
+
+
+# Going up the branch
+- HEAD is what branch you're currently on. 
+```
+git checkout HEAD
+```
+- ^ indicates you want the parent branch
+```
+git checkout HEAD^
+git checkout {branchName}^
+```
+- ~ takes a number for how many parent branches you want to go up
+This goes back 5 parents of the current branch
+```
+git checkout HEAD~5
+```
+
+- Branch forcing
+Moving branches around, using `-f` you can assign a branch to a specific commit
+```
+git branch -f master HEAD~3
+```
+
+
+
+- reset entire tree
+
+```
+git reset --hard;git clean -df
+```
 
 
 # Flags
