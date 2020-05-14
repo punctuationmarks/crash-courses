@@ -1,12 +1,4 @@
 # House keeeping
-- When importing, if you're importing a specific module, make sure to put the module in {}
-	- If you're importing the main library, don't put it in the {}
-```
-import React, {Component} from "react";
-
-```
-
-- Using single or double quotes matters, based on the library, just pick one and be consistent
 
 - All variables and functions are global by default
 	- Note, in node, they are not "global" by default, but they are locally global to the file 
@@ -635,6 +627,31 @@ const lookUpProfile = (name, prop) => {
 }
 ``` 
 
+# Classes
+  - Technically classes aren't robust like they are in Python or C, 
+
+- Class with a getter, setter and constructor, converting fahrenheit to celsuis and back 
+```
+class Thermostat {
+  constructor(fahrenheit) {
+    this.fahrenheit = fahrenheit;
+  }
+  
+  get temperature() {
+    return (5 / 9) * (this.fahrenheit - 32);
+  }
+  
+  set temperature(celsius) {
+    this.fahrenheit = (celsius * 9.0) / 5 + 32;
+  }
+}
+
+const thermos = new Thermostat(76); // Setting in Fahrenheit scale
+let temp = thermos.temperature; // 24.44 in Celsius
+thermos.temperature = 26;
+temp = thermos.temperature; // 26 in Celsius
+
+```
 
 # While and Do While loops
 ```
@@ -746,6 +763,7 @@ document.addEventListener('DOMContentLoaded', function()
 
 
 # Promises
+- Do something once the promise is fullfilled, usually asynchronously
 - From MDN "a promise is a proxy for a value not necessarily known when the promise is created". In other words, it's a placeholder for when the asyncronous call will return
 - Promises have three states
 	- pending (initial state)
@@ -792,7 +810,58 @@ document.addEventListener('DOMContentLoaded',function(){
 ```
 
 
+# Importing Code
+- When importing, if you're importing a specific module, make sure to put the module in {}
+	- If you're importing the main library, don't put it in the {}
+```
+import React, {Component} from "react";
 
+```
+- The path needs to be explicityly declared
+```
+// note the path, same directory
+import {function1, function2} from "./_functions.js";  
+
+function1("arrrggg");
+function2("arrrgggss");
+
+```
+
+- importing defaults does not need brackets around the import
+```
+import defaultFunct from "./_defaultFunctions.js";
+defaultFunct("arrggg");
+```
+
+- Using single or double quotes matters, based on the library, just pick one and be consistent
+
+
+# Exporting code
+
+```
+const uppercaseString = (string) => {
+  return string.toUpperCase();
+}
+
+const lowercaseString = (string) => {
+  return string.toLowerCase()
+}
+
+
+export {uppercaseString, lowercaseString};
+```
+
+- Adding a "fall back" default, usually only used when one value is being exported
+```
+export function subtract(x, y) {
+  return x - y;
+}
+
+
+export default function(x, y){
+  return x - y;
+}
+```
 
 # Bebugging
 - Getting a `Uncaught ReferenceError: d3 is not defined at pen.js:11` (this example is for CodePen). Check your cookie privilages. Allow some cookies for the site to grab the d3 from d3js.org in this example
