@@ -421,3 +421,9 @@ functional_tests/tests.py are the same file,
 and show you a more sensible diff (try it without the flag!).
 
 ```
+
+# Random
+- Want to untrack a previously tracked file? (i.e. you don't really want your private keys pushed to Github, right?)
+```
+git rm --cached {desiredFileToUntrack}
+```
