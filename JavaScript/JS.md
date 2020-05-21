@@ -1,4 +1,6 @@
-# House keeeping
+# Fundamentals of JS, up to ES6
+
+## House keeeping aka tips and tricks and reminders while working with JS
 
 - All variables and functions are global by default
 	- Note, in node, they are not "global" by default, but they are locally global to the file 
@@ -6,7 +8,10 @@
 - Adding `"use strict";` at the top of a .js file enables "Strict Mode" which catches common mistakes and unsafe actions
   - This can also be used inside of a function if only needed strict mode in a localized area
 
-
+- Callback functions
+  - a function that executes on each individual element in an array (except for the first, if no "initialValue" is supplied)
+  - When using callback functions (for sure on asynchronous functions) they only get triggered after the first function (the parent function) is either sucesssful or fails (so the callback can (usually) take an error)
+if
 - Rest parameter `...` passed in functions
   - Allows for a variable number of _parameters_ to be passed, think of *args, **kwargs in python
 
@@ -16,14 +21,9 @@ const sum = (...args) => args.reduce((a, b) => a + b, 0);
 
 - Spread operator `...`
 	- This handy tool allows for dynamic spreading of _arguments_ that get passed to a function
-		- Meanign less boiler plate code and more abstraction
+		- Meaning less boiler plate code and more abstraction
+
 ```
-let arr = [1, 10, 20, 30];
-let max_value = Math.max.apply(null, arr) // have to pass null because apply() expects individual items separated by commas, returns 30
-
-let max_value_spread = Math.max.apply(..arr) // deconstructs each element and passes them one by one
-
-
 // using the spread operator to copy all of the contents of an array
 const arr1 = ['JAN', 'FEB', 'MAR', 'APR', 'MAY'];
 let arr2;
@@ -31,10 +31,51 @@ let arr2;
 arr2 = [...arr1];
 ```
 
+# this does not work, need more research into the apply() function with a spread operator
+```
+let arr = [1, 10, 20, 30];
+let max_value = Math.max.apply(null, arr) // have to pass null because apply() expects individual items separated by commas, returns 30
+
+let max_value_spread = Math.max().apply(null, ...arr) // deconstructs each element and passes them one by one
+```
+
+
+
+- In browser javascript (client side), the browser interprets and runs the javascript being sent to it. It is inside of a "window" object and allows the javascript to have access to the document object model of the browser (DOM). Everything written in "browser" javascript gets appended to the "window" object (even the DOM is inside the window object)
+
+```
+// Browser JS example
+
+document.getElementById("html-id");
+
+// is actually the same thing as 
+window.document.getElementById("html-id"); 
+
+// everything is in the window object
+window.console.log("html-id"); 
+
+
+// even on custom variables and functions
+const name = "billy goat";
+
+window.name;
+
+function sayName(name){
+    console.log(name);
+};
+
+window.sayName(name); // note if you pass window.name you'll get a return value of undefined
+
+```
+
+
+
 - Destructoring an object
   - Quick way to get values from properties/keys in an obect
   - Also does the same with arrays
-  - Note, the variable names must == the properies or being explicityly declared 
+  - _Note_, the variable names must == the properies or be explicityly declared 
+  - _also note_ during property and value adding (when performing at the same time) you can use dot notation if the property being added is a single word, but you _must_ use bracket notation if you're using a previously declared variable (e.g. `const age = "person's age"; obj[age] = 21;` is valid, but dot notation would not be )
+
 ```
 const obj = {
   name: "Billy Goat",
@@ -93,6 +134,46 @@ half(stats);
 
 ```
 
+
+- In browser javascript (client side), the browser interprets and runs the javascript being sent to it. It is inside of a "window" object and allows the javascript to have access to the document object model of the browser (DOM). Everything written in "browser" javascript gets appended to the "window" object (even the DOM is inside the window object)
+
+```
+// Browser JS example
+
+document.getElementById("html-id");
+
+// is actually the same thing as 
+window.document.getElementById("html-id"); 
+
+// everything is in the window object
+window.console.log("html-id"); 
+
+
+// even on custom variables and functions
+const name = "billy goat";
+
+window.name;
+
+function sayName(name){
+    console.log(name);
+};
+
+window.sayName(name); // note if you pass window.name you'll get a return value of undefined
+
+```
+
+- Back ticks for string formulating and passing variables through strings (instead of using a top of concatonation)
+  - Using back tics is very similar to fstrings in python
+  - _NOTE:_ you cannot use back tics to pass an object through, it will give an error of `TypeError: Cannot convert object to primitive value`
+```
+const path = require("path"); // node standard library
+
+
+const fileLocation = path.join(__dirname, 'app.js');
+
+// check this out
+console.log(`fileLocation: ${fileLocation}`);
+```
 
 
 
@@ -247,20 +328,89 @@ function makeList(arr) {
 const resultDisplayArray = makeList(result.failure); // returns three li items with the items in the failure list values
 ```
 
-# Arrays
-  - Mutable
-  - Indexable
-  - Functions
-    - `{array}.push({element})` appends an element to the end of the array
-    - `{array}.unshift({element})` appends an element to the beginning on an array
-     -`{array}.pop()` removes the final element in an array and returns said element
-     - `{array}.shift()` removes the first element in an array and returns said element
+
+## Arrays
+- Mutable
+- Indexable
+- Functions
+  - `{array}.push({element})` appends an element to the end of the array
+  - `{array}.unshift({element})` inserts an element to the beginning on an array
+  -`{array}.pop()` removes the final element in an array and returns said element
+  - `{array}.shift()` removes the first element in an array and returns said element
+  - `{array}.splice(startingIndex, nonInclusiveStoppingIndex, anyDesiredDataToAddtoTheArrayStartingAtTheSameIndex)` - removes however many elements desired from the starting index, can replace if the option third arguments are passed (can be a multiple arguments separated by a comma)
+  - `{array}.slice(startingIndex, nonInclusiveStoppingIndex)`  copies the data in the array and returns it
+  - `{array}.indexOf(valueToBeCheck)` returns the index of the passed value (singular) in the array (if there are any, returns -1 if there are not any)
 
 
+- Reduce
+  - Executes a "reducer" function (a callback function) that is custom but must take these 4 arguments
+    - accumulator (`acc`)
+    - the current value (`cur`)
+    - the current index (`idx`)
+    - and the source array (`src`) 
+      - this is the array that `reduce()` is called upon
 
+  - Breaking down what is actually happening in the reducer function when reduce() is applied
+```
+> let arr = [10, 1, 2, 3, 4];
+undefined
+> console.log(arr)
+[ 10, 1, 2, 3, 4 ]
+undefined
+> 
 
+> arr.reduce(function(accumulator, currentValue, currentIndex, array) {
+...   console.log("acc :" + accumulator); // note this start at index 0
+...   console.log("cur " + currentValue); // note this starts at index 1
+...   console.log("acc + cur " + (accumulator + currentValue));
+...   return accumulator + currentValue;
+... });
+acc :10
+cur 1
+acc + cur 11
+acc :11
+cur 2
+acc + cur 13
+acc :13
+cur 3
+acc + cur 16
+acc :16
+cur 4
+acc + cur 20
+20
+> 
+> console.log(arr)
+[ 10, 1, 2, 3, 4 ]
+undefined
+> 
+> let arr2 = 
+... arr.reduce(function(accumulator, currentValue, currentIndex, array) {
+...   console.log("acc :" + accumulator);
+...   console.log("cur " + currentValue);
+...   console.log("acc + cur " + (accumulator + currentValue));
+...   return accumulator + currentValue;
+... });
+acc :10
+cur 1
+acc + cur 11
+acc :11
+cur 2
+acc + cur 13
+acc :13
+cur 3
+acc + cur 16
+acc :16
+cur 4
+acc + cur 20
+undefined
+> 
+> console.log(arr2);
+20
+undefined
+> 
+```
 
-# Scope
+## Scope
 - Global Scope
   - Variables instatiated outside of a function 
 - Local Scope/Function Scope
@@ -269,7 +419,7 @@ const resultDisplayArray = makeList(result.failure); // returns three li items w
   - Can also allow for the use of a locally scoped variable with the same name as a globally scoped variable
 
 
-# Sytntax notes
+## Sytntax notes
 
 
 - `return` can only be called in a function
@@ -627,7 +777,7 @@ const lookUpProfile = (name, prop) => {
 }
 ``` 
 
-# Classes
+## Classes
   - Technically classes aren't robust like they are in Python or C, 
 
 - Class with a getter, setter and constructor, converting fahrenheit to celsuis and back 
@@ -653,14 +803,14 @@ temp = thermos.temperature; // 26 in Celsius
 
 ```
 
-# While and Do While loops
+## While and Do While loops
 ```
 
 
 ```
 
 
-# Recursion (replacing for loops with a function that calls itself)
+## Recursion (replacing for loops with a function that calls itself)
 ```
 
 function multiply(arr, n)
@@ -714,7 +864,7 @@ function rangeOfNumbers(startNum, endNum) {
 console.log(countdown(10));
 ```
 
-# Ternary Operator `? :`
+## Ternary Operator `? :`
 - Very similar to an if/else statment or a switch statement, but nicer for quick inline conditional checking
   - Syntax
     - `condition ? statementIfTrue : statementIfFalse`
@@ -739,7 +889,7 @@ checkSign(10);
 
 ```
 
-# DOM (Document Object Model)
+## DOM (Document Object Model)
 - The DOM is the model of the html structure of the website. With altering the dom, javascript can make elements (<h1>, <li>, ect) dynamic
 
 
@@ -762,9 +912,11 @@ document.addEventListener('DOMContentLoaded', function()
 
 
 
-# Promises
-- Do something once the promise is fullfilled, usually asynchronously
+## Promises
 - From MDN "a promise is a proxy for a value not necessarily known when the promise is created". In other words, it's a placeholder for when the asyncronous call will return
+- Do something once the promise is fullfilled, usually asynchronously
+- Use promises when something takes an unknown amount of time to fullfill like a api/server call (this will require asynchronous code)
+- It's a class, so every promise is an instance of that class, instantiate new promises with the syntax `new Promise()`
 - Promises have three states
 	- pending (initial state)
 	- fulfilled (returned)
@@ -772,10 +924,36 @@ document.addEventListener('DOMContentLoaded', function()
 
 
 
-- Simple example from requesting some json data
+- Promise breakdown
+```
+
+const makeServerRequest = new Promise((resolve, reject) => {
+  // responseFromServer just represents a response from a server, for educational purposes
+  let responseFromServer;
+    
+
+  if(responseFromServer) {
+    // if true, here's what "resolves"
+    resolve("We got the data!")
+  } else {  
+    // if false, here's what gets "rejected"
+    reject("Data not received :( ")
+  }
+})
+
+makeServerRequest
+.then(result => {console.log(result);})  // then only is called once the promise is resolved/fullfilled
+.catch(error => console.log(error)); // catch only is called once the promise is rejected
+
+/** the variable names 'result' and 'error' here are arbitrary, but standard practice */
+
+```
+
+- Example using fetch() requesting some json data, and writing it in a string to the html page
+
 ```
 document.addEventListener('DOMContentLoaded',function(){
-    document.getElementById('getMessage').onclick= () => {
+    document.getElementById('getMessage').onclick = () => {
       // fetch() returns a promise, once it is fullfilled, then something can happen
       fetch('/json/cats.json')
         .then(response => response.json())
@@ -788,29 +966,14 @@ document.addEventListener('DOMContentLoaded',function(){
 
 
 
-# Returning a user's gps location and rendering it to their screen
-```
-<script>
-  // making sure the geolocation object exists
-  if (navigator.geolocation)
-  {
-    navigator.geolocation.getCurrentPosition((position) => 
-    {
-      document.getElementById('data').innerHTML="latitude: " + position.coords.latitude + "<br>longitude: " + position.coords.longitude;
-    })
-  }
-
-  // Add your code above this line
-</script>
-<h4>You are here:</h4>
-<div id="data">
-
-</div>
-
-```
 
 
-# Importing Code
+
+
+
+
+
+## Importing Code
 - When importing, if you're importing a specific module, make sure to put the module in {}
 	- If you're importing the main library, don't put it in the {}
 ```
@@ -836,7 +999,7 @@ defaultFunct("arrggg");
 - Using single or double quotes matters, based on the library, just pick one and be consistent
 
 
-# Exporting code
+## Exporting code
 
 ```
 const uppercaseString = (string) => {
@@ -863,7 +1026,7 @@ export default function(x, y){
 }
 ```
 
-# Bebugging
+## Bebugging
 - Getting a `Uncaught ReferenceError: d3 is not defined at pen.js:11` (this example is for CodePen). Check your cookie privilages. Allow some cookies for the site to grab the d3 from d3js.org in this example
 ```
 <!--ie allow this traffic to happen-->
@@ -871,13 +1034,21 @@ export default function(x, y){
 
 ```
 
+- Use `console.log()` to help with debugging, `console.clear()` will clear up the screen, wherever you place it
+
+- Use `typeof` to check the types of the objects you're dealing with _note the syntax_
+```
+let x = 5;
+ley y = '6';
+
+console.log(typeof x); // returns number
+console.log(typeof y); // return string
+```
 
 
 
 
-
-
-# FreeCodeCamp Examples
+## FreeCodeCamp and other random examples
 
 - Updating an object/hash map/dictionary
 ```
@@ -950,6 +1121,7 @@ convertToInteger("10011");
 
 
 - Destructuring, wtf? why don't we have to declare the newly built array (the combination of two variables)?
+  - This is probably because variables are objects and arrays also contain objects (most things are objects in JS)
 ```
 let a = 8, b = 6;
 // array not declared by var, let or const?
@@ -957,4 +1129,217 @@ let a = 8, b = 6;
 
 console.log(b); // 8
 console.log(a); // 6
+```
+
+
+
+
+- Returning a user's gps location and rendering it to their screen
+```
+<script>
+  // making sure the geolocation object exists
+  if (navigator.geolocation)
+  {
+    navigator.geolocation.getCurrentPosition((position) => 
+    {
+      document.getElementById('data').innerHTML="latitude: " + position.coords.latitude + "<br>longitude: " + position.coords.longitude;
+    })
+  }
+
+  // Add your code above this line
+</script>
+<h4>You are here:</h4>
+<div id="data">
+
+</div>
+
+```
+
+- Buiding 2d tensors
+
+```
+function zeroArray(m, n) {
+  // Creates a 2-D array with m rows and n columns of zeroes
+  let newArray = [];
+  let row = [];
+  // let columns = [];
+  for (let i = 0; i < m; i++) {
+    // Adds the m-th row into newArray
+    // Pushes the current row, which now has n zeroes in it, to the array
+    newArray.push(row);
+  }
+   // building the columns
+    for (let j = 0; j < n; j++) {
+      // Pushes n zeroes into the current row to create the columns
+      row.push(0);
+    }
+  return newArray;
+}
+
+let matrix = zeroArray(3, 2);
+console.log(matrix);
+
+```
+
+
+- Copying with spread operator (medium article)
+
+```
+const array = ['😉','😊','😇']
+const copyWithEquals = array // Changes to array will change copyWithEquals
+const copyWithSpread = [...array] // Changes to array will not change copyWithSpread
+
+array[0] = '😡' // Whoops, a bug
+
+console.log(...array) // 😡 😊 😇
+console.log(...copyWithEquals) // 😡 😊 😇
+console.log(...copyWithSpread) // 😉 😊 😇
+```
+ 
+
+- push and unshift example (freecodecamp)
+```
+function mixedNumbers(arr) {
+  arr.unshift('I', 2, 'three') // inserts into the beginning
+  arr.push(7, 'VIII', 9) // appends to the end
+  return arr;
+}
+
+console.log(mixedNumbers(['IV', 5, 'six'])); // returns [ 'I', 2, 'three', 'IV', 5, 'six', 7, 'VIII', 9 ]
+
+```
+
+- pop and shift example (freecodecamp) 
+```
+function popShift(arr) {
+  let popped = arr.pop(); // drops and returns the last value
+  let shifted = arr.shift(); // drops and returns the first value
+  return [shifted, popped];
+}
+
+console.log(popShift(['challenge', 'is', 'not', 'complete'])); 
+// returns ["challenge",  "complete"] because we're returning the values of .pop() and .shift() not the value of the mutated array
+
+```
+
+- splice freecodecamp example
+```
+
+const arr = [2, 4, 5, 1, 7, 5, 2, 1];
+// just removing items, starting at index 1 and going to index 4
+arr.splice(1, 4)
+console.log(arr); // returns elements [2, 5, 2, 1]
+
+function htmlColorNames(arr) {
+  // removing and replacing indexes 0 and 1
+  arr.splice(0,2, 'DarkSalmon', 'BlanchedAlmond') 
+  return arr;
+}
+
+console.log(htmlColorNames(['DarkGoldenRod', 'WhiteSmoke', 'LavenderBlush', 'PaleTurquoise', 'FireBrick']));
+
+```
+
+- Copying arrays with spread operator and push (freecodecamp)
+```
+function copyMachine(arr, numberOfDesiredCopies) {
+  let newArr = [];
+  while (numberOfDesiredCopies >= 1) {
+    newArr.push([...arr]); // appends the array copy (with spread operator) to the newArr
+    numberOfDesiredCopies--;
+  }
+  return newArr;
+}
+
+
+console.log(copyMachine([true, false, true], 2));
+
+```
+
+- Using spread operator to copy arrays into other arrays (freecodecamp)
+```
+function spreadOut() {
+  let fragment = ['to', 'code'];
+  let sentence = ["learning", ...fragment, "is", "fun"]; 
+  return sentence;
+}
+
+console.log(spreadOut()); // returns [ 'learning', 'to', 'code', 'is', 'fun' ]
+
+```
+
+- Using .indexOf() to filter out nested arrays (freecodecamp)
+```
+function filtersNestedArray(arr, elem) {
+  let newArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].indexOf(elem) == -1) { // meaning the nested array doesn't have te element
+      newArr.push(arr[i]);
+    } else {
+      console.log(arr[i]) // logs all of the nested arrays that contain that element
+    }
+
+  }
+  return newArr;
+};
+
+console.log(filteredArray([[3, 2, 3], [1, 6, 3], [3, 13, 26], [19, 3, 9]], 9));
+// returns [ [ 3, 2, 3 ], [ 1, 6, 3 ], [ 3, 13, 26 ] ]
+// logs [ 19, 3, 9 ] (because it contained a 9)
+
+```
+
+
+- Nesting arrays example (freecodecamp)
+```
+let myNestedArray = [ // "first" layer, first index when indexing
+
+  "1st layer",
+
+  ['2nd layer', false, 1, 2, 3, 'complex', 'nested'],
+
+  [
+    ["3rd layer", "deep", 'shift', 6, 7, 1000, 'method'],
+  ],
+  [
+    [
+      ["4th layer", "deeper", 'concat', false, true, 'spread', 'array'],
+      ['mutate', 1327.98, 'splice', 'slice', 'push'],
+    ]
+  ],
+  [
+    [
+      [
+        ["5th layer", "deepest", 'iterate', 1.3849, 7, '8.4876', 'arbitrary', 'depth']
+      ]
+    ]
+  ]
+  // Only change code above this line
+];
+
+
+console.log(myNestedArray[2][0][0]) // returns the string "3rd layer"
+
+console.log(myNestedArray[4][0]) // returns the entire array starting with "5th layer"
+
+console.log(myNestedArray[4][0][0][0][0]) // returns just the string "5th layer"
+```
+
+
+- updated nested arrays with dot notation (freecodecamp)
+```
+let userActivity = {
+  id: 23894201352,
+  date: 'January 1, 2017',
+  data: {
+    totalUsers: 51,
+    online: 42
+  }
+};
+
+
+userActivity.data.online = 45;
+
+console.log(userActivity);
+
 ```
