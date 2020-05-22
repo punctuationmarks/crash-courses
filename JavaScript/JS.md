@@ -1034,6 +1034,8 @@ export default function(x, y){
 
 ```
 
+- `use strict;` is your best friend until you start using typescript
+
 - Use `console.log()` to help with debugging, `console.clear()` will clear up the screen, wherever you place it
 
 - Use `typeof` to check the types of the objects you're dealing with _note the syntax_
@@ -1045,7 +1047,9 @@ console.log(typeof x); // returns number
 console.log(typeof y); // return string
 ```
 
+- When testing, you need to export your functions/ect, so if you use a function locally, make sure to declare the function, and then export it at the bottom of the module/file. (If you don't use it locally, with node, you can declare the function with exports.functionName = () => {} which is uggly, but is something you might read some day) 
 
+- When installing a new package/library/module with npm, you can pick where it's saved with flags. For instance, we don't want our testng suite to be pushed to the client/server (most likely), so use the `--save-dev` flag to save it to the development package.json
 
 
 ## FreeCodeCamp and other random examples

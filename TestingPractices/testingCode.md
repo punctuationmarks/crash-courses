@@ -1,15 +1,19 @@
 # Types of tests
 
 - Unit tests
-Verify functional behavior of individual components, often to class and function level.
+Verify functional behavior of individual components, often to class and function level. It's testing the individual unit of code. Write tons of these. 
 - Functional tests
 Simulate how a user would actually use your program, i.e. using Selenium to spin up a browser
 and test a Django web app
 - Regression tests
 Tests that reproduce historic bugs. Each test is initially run to verify that the bug has been fixed, and then re-run to ensure that it has not been reintroduced following later changes to the code.
 - Integration tests
-Verify how groupings of components work when used together. Integration tests are aware of the required interactions between components, but not necessarily of the internal operations of each component. They may cover simple groupings of components through to the whole website.
-Note: Other common types of tests include black box, white box, manual, automated, canary, smoke, conformance, acceptance, functional, system, performance, load, and stress tests. Look them up for more information.
+Verify how groupings of components work when used together. Integration tests are aware of the required interactions between components, but not necessarily of the internal operations of each component. They may cover simple groupings of components through to the whole app. An example is a function that calls another funtion.
+- End-to-end tests/UI tests
+For web development it's like validating the dom has been changed. 
+
+
+- _Note_: Other common types of tests include black box, white box, manual, automated, canary, smoke, conformance, acceptance, functional, system, performance, load, and stress tests. Look them up for more information.
 
 
 
@@ -62,6 +66,15 @@ code, i.e.  passing "silly" requests to ensure tests fail is a common trope in T
 
 
 # Tools (read as "concepts") while testing
+
+- Test Runner
+Executes the tests, summarizies the results, and gives ouput. For Javascript, there's Mocha, Jest is a solution that is both a test runner and an assertion library
+
+- Assertion Library
+Allows the defining fo testing logic, defining "expectations". For Javascript, there's Chai
+
+- Headless Browser (for web development)
+Used for accessing the DOM without doing manual tests. For Javascript, Puppeteer is used for this
 
 - Explicit Waits
 These are pauses in your functional tests, i.e. sleep timers for the functional test to actually run. 

@@ -104,6 +104,20 @@ $ find . -name "node_modules" -type d -prune -print | xargs du -chs
 
 
 # Delete all folders inside the parent directory and print the results
+Before this is done, print them to the screen with their information, might be helpful since mass deleting is most likely irreversable (unless you get gud).
+For instance, I ran this from the ~ directory, which would have broken discord if I did a remove here
+
+```
+$ find . -name "node_modules" -type d -prune -print | xargs du -chs
+381M	./.local/share/Trash/files/node_modules
+156K	./.local/share/Trash/files/node_modules.5/snapdragon/node_modules
+24K	./.local/share/Trash/files/node_modules.5/fill-range/node_modules
+1.5M	./.config/discord/0.0.10/modules/discord_voice/node_modules
+4.8G	total
+...
+
+```
+
 ```
 $ find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
 
