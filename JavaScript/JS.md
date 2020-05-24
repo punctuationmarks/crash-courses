@@ -175,6 +175,18 @@ const fileLocation = path.join(__dirname, 'app.js');
 console.log(`fileLocation: ${fileLocation}`);
 ```
 
+## Asynchronous code
+-  A feature of javascrip havng asynchronous code is that if there is an async callback, that return statment inside the callback will return at a different time than the outer most function
+- Return statements inside of callbacks (or inside of promise -> then calls) aren't the return value for the overall function, but only the return value for the nested (callback) function, which is then passed to the outer most function once it is executed
+- When testing async code, use mocked data to avoid needless api calls and use async code inside of tests to verify the code is working properly (verified with passing tests)
+
+## Testing
+
+- When testing code that perhaps calls an api, mock that data
+- Best practices when using a test runner and unit testing library like Jest is to  have the functions with "mocked" data in a folder called \_\_mocks\_\_ in the root directory. In the file that has the testing code, run the script `jest.mock('fileYouBeMocking')` at the top and it'll run the mocked function/files instead of the development/production files. This will allow for the mocked data to be tested and not the 3rd party api.
+- When testing async code, use mocked data to avoid needless api calls and use async code inside of tests to verify the code is working properly (verified with passing tests)
+- You can also mock entire packages (like axios for instance)
+- Write a ton of unit tests, a decent amount of functional tests (functions that call other functions) and very few end-to-end tests (front end tests that ensure the backend/api are working)
 
 
 ## `var` vs `const` vs `let`
@@ -1049,7 +1061,7 @@ console.log(typeof y); // return string
 
 - When testing, you need to export your functions/ect, so if you use a function locally, make sure to declare the function, and then export it at the bottom of the module/file. (If you don't use it locally, with node, you can declare the function with exports.functionName = () => {} which is uggly, but is something you might read some day) 
 
-- When installing a new package/library/module with npm, you can pick where it's saved with flags. For instance, we don't want our testng suite to be pushed to the client/server (most likely), so use the `--save-dev` flag to save it to the development package.json
+- When installing a new package/library/module with npm, you can pick where it's saved with flags. For instance, we don't want our testng suite to be pushed to the client/server (most likely), so use the `--save-dev` flag to save it to the development package.json 
 
 
 ## FreeCodeCamp and other random examples

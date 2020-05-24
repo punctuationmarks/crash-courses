@@ -3,19 +3,303 @@
 
 
 ## Terminology
-- HEAD
+- __HEAD__
 	- the commit currenly being worked on
 	- always points to the most recent commit, reflected in the current working tree
 	- normally points to a branch name
-- Detaching HEAD
+- __Detaching HEAD__
 	- attaching the head to a commit instead of a branch
-- ^
+- __^__
 	- adding this after a branch name will signify its parent, add more carrots for grandparents
+- __Remote Branch__
+	- Refect the state of remote repositories, since last "pull" of those repositories (meaning it can be out of date)
+	- Forces a disconnect between local and public work
+	- Also put in __detached HEAD__ mode
+	- The remote branch is often called __origin__
+		- the naming convention is {remote name}/{branch name}
+		- so common would be to see `origin/master` (which only gets updated when the remote branch updates, aka origin)
+- __fetching__
+	- Pulling changes from a remote repository (to the main repository)
+	- Note, it downloads the changes, but does not push them to your master
 
 
 
 
-- Moving files and need to ensure Git keeps track of this?
+# Branches and Merging
+
+- Making a new branch
+```
+$ git branch {newBranch}
+```
+
+- Selecting/checking out a branch
+```
+$ git checkout {branchName}
+```
+
+- Making and selecting the new branch
+```
+$ git checkout -b {newBranch}
+```
+
+## Merging
+- Merging makes a commit with two "parent" commits, combingin them (used for experimental development)
+Showing two branches, separately committed and then merging the first with the second
+```
+$ git checkout -b {branchName} # checks out and makes the branchName from current HEAD	 
+$ git commit
+$ git checkout master
+$ git commit
+$ git merge {branchName}
+```
+
+
+
+
+## Rebasing
+- If you want a branch to seem that it was developed sequentially opposed to separately, then "rebase" the branch onto the master branch
+Showing two branches, separately committed and then rebasing the checked out {branchName} with master
+```
+$ git checkout -b {branchName}
+$ git commit 
+$ git checkout master
+$ git commit
+$ git checkout {branchName}
+$ git rebase master
+```
+
+
+
+
+## Going up the branch
+- HEAD is what branch you're currently on. 
+```
+git checkout HEAD
+```
+- ^ indicates you want the parent branch
+```
+git checkout HEAD^
+git checkout {branchName}^
+```
+- ~ takes a number for how many parent branches you want to go up
+This goes back 5 parents of the current branch
+```
+git checkout HEAD~5
+```
+
+- Branch forcing
+Moving branches around, using `-f` you can assign a branch to a specific commit
+```
+git branch -f master HEAD~3
+```
+
+- "Revealing the HEAD before and after a commit
+```
+git checkout {commit1};
+git checkout master;
+git commit;
+git checkout commit2; 
+```
+
+- Detaching HEAD
+	- attaching the HEAD to a commit instead of a branch
+	- once a commit is checked out, then the checkout is now the HEAD (or currently working commit from the main tree)
+										
+So with a structure of commit0 -> commit1 (branches between) --< commit2 that is master (and) --< commit3 -> commit4
+if I want the commit4 to be the HEAD, then just checkout the commit4 
+```
+git checkout commit4
+```
+
+
+
+
+- Seeing what actually happened in your logs (`--oneline` is optional)
+	- The hashes are unique (most times) from the first few characters, so you can just call the first few on checkout
+	- The `--oneline` flag shortens all of the commits to be one line each, otherwise you'll see the entire hash and more info
+```
+$ git log --oneline
+bd966d91 (HEAD -> master) ...
+c556e874 (origin/master, origin/HEAD) ...
+866a8933 lots added
+d9841395 should have commited earlier, added some selenium work
+0edee76e added some django testing
+adfe9bd9 added some django testing
+815c75fd added some SQL, refreshers
+093b9d9c added some testing
+54019755 added some algorithm practice
+05c44dd4 Merge branch 'master' of https://github.com/punctuationmarks/Classes
+756f1f8c .
+076f65f1 .
+d1499c31 added pi
+d1393ee3 added some pi stuff
+054e1366 added ignore
+d6200738 finished php course
+8808476e asdf
+efb091e8 learning laravel
+6b45aca2 finished php course
+62050c3e added more php learning
+8514f3b4 intial commit
+
+```
+
+- Relative refs
+	- start somewhere memorable (like a named commit) and move upwards with `^` (x1) or `~{number of desired moves}`
+	- `master^` means the first parent of master
+	- `master^^` means the second parent of master
+	- `master~4`  means the 4th parent of master
+
+- Usefull to use relative refs for moving branches around
+	- `-f` assign a brnach to a commit with (by force)
+	- `git brnach -f master HEAD~3` moves the master branch to threee parents behind HEAD
+
+So with a structure of commit0 -> commit1 (branches between) --< commit2 (HEAD) --> commit4 that starting as master (and branches between) --< commit3 -> commit5 (also named "bugFix") -> commit6
+```
+git branch -f master commit6 # moves the master to the newest commit (after bugFix)
+git checkout HEAD^ # moves HEAD to commit 1
+git checkout -f bugFix HEAD~ # moves bugFix to commit0
+```
+
+
+# Reversing changes
+
+
+
+- Revert
+	- Reverses changes and allows for sharing with remote git
+
+- Reset
+	- Good for local machine, not good for remote git, use `revert` instead
+	- reverts the commit back to one parent up from HEAD
+	
+```
+git reset HEAD^
+```
+
+
+- Reset entire tree, hard, not recommended
+
+```
+git reset --hard;git clean -df
+```
+
+
+
+- Example using revert and reset
+```
+git checkout {local}
+git reset HEAD^ # reset the local by one parent
+git checkout {pushed}
+git revert HEAD # reverts the pushed to the current checked out HEAD
+```
+
+
+
+# Cherry-Picking
+- States that you want to copy a series of commits below the current location (HEAD)
+	- Meaing you can copy whatever commits you want and it will be copied behind whatever your HEAD is (implictly declared)
+	- Whatever the order the commits are declared in the cherrypick is the order they will be coped 
+```
+git cherry-pick {commit10} {commit22} {commit1}
+```
+
+
+# Flags
+
+
+
+
+```
+
+$ git status # functional_tests.py renamed + modified, new __init__.py
+$ git add functional_tests
+$ git diff --staged -M
+$ git commit  # msg eg "make functional_tests an app, use LiveServerTestCase"
+
+The -M flag on the git diff is a useful one. 
+It means "detect moves", so it will notice that functional_tests.py and 
+functional_tests/tests.py are the same file, 
+and show you a more sensible diff (try it without the flag!).
+
+```
+
+
+# Remote Git
+
+
+- Cloning repositories (copying source code from a remote compute)
+```
+git clone {repository-url}
+```
+
+
+- Just an example of how the remote branch is different than the original? branch (or main branch?)
+```
+git checkout master #main
+git commit -m "main commit here"
+git checkout origin/master #remote
+git commit -m "remote commit here"
+```
+
+- Grabbing data _from_ a remote repostitory with "fetch"
+```
+git fetch
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Tips and Random
+- Want to untrack a previously tracked file? (i.e. you don't really want your private keys pushed to Github, right?)
+```
+git rm --cached {desiredFileToUntrack}
+```
+
+
+- Moving files and need to ensure Git keeps track of this? Move them with git
 ```
 $ git mv og_file.md ../new_school_file.md
 
@@ -222,208 +506,4 @@ $ git commit -am "...
  4 files changed, 12 insertions(+), 3 deletions(-)
  delete mode 100644 Django/ObeyTheTestingGoat/notes/.tests.py.swp
 
-```
-
-# Branches and Merging
-
-- Making a new branch
-```
-$ git branch {newBranch}
-```
-
-- Selecting/checking out a branch
-```
-$ git checkout {branchName}
-```
-
-- Making and selecting the new branch
-```
-$ git checkout -b {newBranch}
-```
-
-## Merging
-- Merging makes a commit with two "parent" commits, combingin them (used for experimental development)
-Showing two branches, separately committed and then merging the first with the second
-```
-$ git checkout -b {branchName} # checks out and makes the branchName from current HEAD	 
-$ git commit
-$ git checkout master
-$ git commit
-$ git merge {branchName}
-```
-
-
-
-
-## Rebasing
-- If you want a branch to seem that it was developed sequentially opposed to separately, then "rebase" the branch onto the master branch
-Showing two branches, separately committed and then rebasing the checked out {branchName} with master
-```
-$ git checkout -b {branchName}
-$ git commit 
-$ git checkout master
-$ git commit
-$ git checkout {branchName}
-$ git rebase master
-```
-
-
-
-
-# Going up the branch
-- HEAD is what branch you're currently on. 
-```
-git checkout HEAD
-```
-- ^ indicates you want the parent branch
-```
-git checkout HEAD^
-git checkout {branchName}^
-```
-- ~ takes a number for how many parent branches you want to go up
-This goes back 5 parents of the current branch
-```
-git checkout HEAD~5
-```
-
-- Branch forcing
-Moving branches around, using `-f` you can assign a branch to a specific commit
-```
-git branch -f master HEAD~3
-```
-
-- "Revealing the HEAD before and after a commit
-```
-git checkout {commit1};
-git checkout master;
-git commit;
-git checkout commit2; 
-```
-
-- Detaching HEAD
-	- attaching the HEAD to a commit instead of a branch
-	- once a commit is checked out, then the checkout is now the HEAD (or currently working commit from the main tree)
-										
-So with a structure of commit0 -> commit1 (branches between) --< commit2 that is master (and) --< commit3 -> commit4
-if I want the commit4 to be the HEAD, then just checkout the commit4 
-```
-git checkout commit4
-```
-
-
-
-
-- Seeing what actually happened in your logs (`--oneline` is optional)
-	- The hashes are unique (most times) from the first few characters, so you can just call the first few on checkout
-	- The `--oneline` flag shortens all of the commits to be one line each, otherwise you'll see the entire hash and more info
-```
-$ git log --oneline
-bd966d91 (HEAD -> master) ...
-c556e874 (origin/master, origin/HEAD) ...
-866a8933 lots added
-d9841395 should have commited earlier, added some selenium work
-0edee76e added some django testing
-adfe9bd9 added some django testing
-815c75fd added some SQL, refreshers
-093b9d9c added some testing
-54019755 added some algorithm practice
-05c44dd4 Merge branch 'master' of https://github.com/punctuationmarks/Classes
-756f1f8c .
-076f65f1 .
-d1499c31 added pi
-d1393ee3 added some pi stuff
-054e1366 added ignore
-d6200738 finished php course
-8808476e asdf
-efb091e8 learning laravel
-6b45aca2 finished php course
-62050c3e added more php learning
-8514f3b4 intial commit
-
-```
-
-- Relative refs
-	- start somewhere memorable (like a named commit) and move upwards with `^` (x1) or `~{number of desired moves}`
-	- `master^` means the first parent of master
-	- `master^^` means the second parent of master
-	- `master~4`  means the 4th parent of master
-
-- Usefull to use relative refs for moving branches around
-	- `-f` assign a brnach to a commit with (by force)
-	- `git brnach -f master HEAD~3` moves the master branch to threee parents behind HEAD
-
-So with a structure of commit0 -> commit1 (branches between) --< commit2 (HEAD) --> commit4 that starting as master (and branches between) --< commit3 -> commit5 (also named "bugFix") -> commit6
-```
-git branch -f master commit6 # moves the master to the newest commit (after bugFix)
-git checkout HEAD^ # moves HEAD to commit 1
-git checkout -f bugFix HEAD~ # moves bugFix to commit0
-```
-
-
-# Reversing changes
-
-
-
-- Revert
-	- Reverses changes and allows for sharing with remote git
-
-- Reset
-	- Good for local machine, not good for remote git, use `revert` instead
-	- reverts the commit back to one parent up from HEAD
-	
-```
-git reset HEAD^
-```
-
-
-- Reset entire tree, hard, not recommended
-
-```
-git reset --hard;git clean -df
-```
-
-
-
-- Example using revert and reset
-```
-git checkout {local}
-git reset HEAD^ # reset the local by one parent
-git checkout {pushed}
-git revert HEAD # reverts the pushed to the current checked out HEAD
-```
-
-
-
-# Cherry-Picking
-- States that you want to copy a series of commits below the current location (HEAD)
-	- Meaing you can copy whatever commits you want and it will be copied behind whatever your HEAD is (implictly declared)
-	- Whatever the order the commits are declared in the cherrypick is the order they will be coped 
-```
-git cherry-pick {commit10} {commit22} {commit1}
-```
-
-
-# Flags
-
-
-
-
-```
-
-$ git status # functional_tests.py renamed + modified, new __init__.py
-$ git add functional_tests
-$ git diff --staged -M
-$ git commit  # msg eg "make functional_tests an app, use LiveServerTestCase"
-
-The -M flag on the git diff is a useful one. 
-It means "detect moves", so it will notice that functional_tests.py and 
-functional_tests/tests.py are the same file, 
-and show you a more sensible diff (try it without the flag!).
-
-```
-
-# Random
-- Want to untrack a previously tracked file? (i.e. you don't really want your private keys pushed to Github, right?)
-```
-git rm --cached {desiredFileToUntrack}
 ```

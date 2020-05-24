@@ -21,17 +21,14 @@ For web development it's like validating the dom has been changed.
 ## Things to note when testing
 
 - Only run functional tests once all unit tests are passing
-	- Run tests specifically (e.g. in Django `python3 manage.py test APPNAME`)
-	- And then when passing you can run everything to ensure it all functions
-
-
--Test only your code, not the library
-        - Assume that any libraries you are using have been tested,
+- Run tests specifically (e.g. in Django `python3 manage.py test APPNAME`)
+- And then when passing you can run everything to ensure it all functions
+- Test only your code, not the library
+- Assume that any libraries you are using have been tested,
         (and perhaps try only use libraries that have been thoroughly tested)
 
 
-- Get in the mindset of writing failing failing tests and  then getting back up to fix the 
-code, i.e.  passing "silly" requests to ensure tests fail is a common trope in TDD
+- Get in the mindset of writing failing failing tests and  then getting back up to fix the  code, i.e.  passing "silly" requests to ensure tests fail is a common trope in TDD
 
 
 
