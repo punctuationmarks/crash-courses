@@ -1,0 +1,3 @@
+## Coding Editor Issues
+
+- Vs Code has this feature where if you have your cursor at "x" location and hold shift, it'll highlight all the way _to the end_ of the next word. My proposal is that this is a great feature for average computer users, but in a coding editor, this should stop at the beginning of the first string instead of including it. This would be better for fomatting. (found while formatting markdown files)

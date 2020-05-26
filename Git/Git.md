@@ -2,7 +2,7 @@
 # Some things to remember about Git
 
 
-## Terminology
+## Terminology and theory
 - __HEAD__
 	- the commit currenly being worked on
 	- always points to the most recent commit, reflected in the current working tree
@@ -18,16 +18,42 @@
 	- The remote branch is often called __origin__
 		- the naming convention is {remote name}/{branch name}
 		- so common would be to see `origin/master` (which only gets updated when the remote branch updates, aka origin)
-- __fetching__
-	- Pulling changes from a remote repository (to the main repository)
-	- Note, it downloads the changes, but does not push them to your master
+	- __fetching__
+		- Downloads changes from a remote repository (to the main repository) (`git fetch`)
+		- Note, it downloads the changes, but _does not_ push them to your master
+	- __pulling__
+		- Downloads the changes from a remote repository and also commits them (`git pull`)
+		- It's a shorthand for `git fetch` and then `git merge` of the fetched branch
 
+- __Diverging Histories__
+	- When a remote code has a different history than the main branch. 
+	- Think if you pulled a repository on Monday and didn't push anything until Friday, but the rest of the team has been pushing code to the origin, then your remote branch has a "diverging history"
+	- Solutions:
+		- 1: fetch the new data, rebase the remote orgin/master, then push the code to the original tree
+			- this seems safer
+			- using flags `git pull --rebase; git push;`
+		- 2: fetch the new data, merge the remote with the origin/master, then push the code to the original tree
+			- this seems to leave more breadcrumbs
 
+	- __rebasing vs merging when pushing new updates to remote branches__
+		- in order to push new updates to the remote branches, you need to incorportate the latest changes from the remote. You can use rebase or merge in the remote branch to acheive this (since the remote branch will most likely be different than the origin branch)
+		- rebasing
+			- pros: rebasing makes the commit tree look tidy due to everything being in a straight succession
+			- cons: it modifies the (apparent) history in the commit tree
+		- merging 
+			- pros: makes a full history of the commits, so nothing is lost
+			- cons: can be a bit trickier to think about
 
+		- to preserve the commit history, use merge. to have a clean commit tree, use rebase
+
+- __Pull Request/ Merge Request__
 
 # Branches and Merging
 
-- Making a new branch
+
+## Branches
+- Making a new branch 
+	- (but not checking out that branch, meaning it keeps you where you are, but creates the new branch)
 ```
 $ git branch {newBranch}
 ```
@@ -46,11 +72,11 @@ $ git checkout -b {newBranch}
 - Merging makes a commit with two "parent" commits, combingin them (used for experimental development)
 Showing two branches, separately committed and then merging the first with the second
 ```
-$ git checkout -b {branchName} # checks out and makes the branchName from current HEAD	 
-$ git commit
-$ git checkout master
-$ git commit
-$ git merge {branchName}
+$ git checkout -b {branchName} # makes and checks out the branchName from current HEAD	 
+$ git commit # commits to the new branchName
+$ git checkout master # checks out the master branch
+$ git commit # commits to the master branch
+$ git merge {branchName} # merges the unselected branchName to the selected master branch
 ```
 
 
@@ -58,6 +84,8 @@ $ git merge {branchName}
 
 ## Rebasing
 - If you want a branch to seem that it was developed sequentially opposed to separately, then "rebase" the branch onto the master branch
+	- It's pretty much taking multiple branches that are commited and built separately and then combining them in chronological order for continuity
+
 Showing two branches, separately committed and then rebasing the checked out {branchName} with master
 ```
 $ git checkout -b {branchName}
@@ -68,7 +96,27 @@ $ git checkout {branchName}
 $ git rebase master
 ```
 
+- Note about rebasing, it moves the entire branch under the branch you want to rebase to,
+- So all of the commits under side1, side2, side3 are rebased under their respective areas they get moved to
+	- Problem:
+		There are three feature branches -- side1 side2 and side3
+		We want to push each one of these features, in order, to the remote
+		The remote has since been updated, so we will need to incorporate that work as well
 
+```
+git fetch # grabbing the remote
+git rebase origin/master side1 # this is rebasing the side1 ahead of the remote commit
+git rebase side1 side2 # this is rebasing side2 ahead of side1 
+git rebase side2 side3 
+git rebase side3 master
+git push
+```
+
+
+- pros: rebasing makes the commit tree look tidy due to everything being in a straight succession
+- cons: it modifies the (apparent) history in the commit tree
+
+ 
 
 
 ## Going up the branch
@@ -204,17 +252,18 @@ git cherry-pick {commit10} {commit22} {commit1}
 ```
 
 
-# Flags
+# Flags and command specifics
 
 
 
 
+- `-M`
 ```
 
 $ git status # functional_tests.py renamed + modified, new __init__.py
 $ git add functional_tests
 $ git diff --staged -M
-$ git commit  # msg eg "make functional_tests an app, use LiveServerTestCase"
+$ git commit  # msg in nano: eg "make functional_tests an app, use LiveServerTestCase"
 
 The -M flag on the git diff is a useful one. 
 It means "detect moves", so it will notice that functional_tests.py and 
@@ -222,6 +271,16 @@ functional_tests/tests.py are the same file,
 and show you a more sensible diff (try it without the flag!).
 
 ```
+
+- Adding changes to current branch before commit
+```
+git add . 			# stages new files and modifications, without deletions
+git add -u 			# stages modifications and deletions, without new files
+git add -A 			# stages all changes, equivalent to git add .; git add -u;
+```
+
+
+
 
 
 # Remote Git
@@ -242,20 +301,70 @@ git commit -m "remote commit here"
 ```
 
 - Grabbing data _from_ a remote repostitory with "fetch"
+	- Note, this only downloads the data, from remote repositories, does not commit the data
 ```
 git fetch
 
 ```
 
 
+- Grabbing data from remote and commiting it the local repository
+	- This is essentially a `git fetch` followed by a `git merge {branchName}` that was just fetched, which updates the local repository (opposed to `fetch` which just downloads the data and doesn't merge or commit anything)
+	- To think of this clearer check out this following example
+		- A main repository exists of commit0 and commit1. A remote branch exists containing those first two commits. 
+			- The orignal has two updates, commit2 and commit3
+			- The remote repository also has an updated tree commit4 
+				- (so that's commit0, commit1, and commit4 for the remote repository, currently)
+			- When the pull happens, the origin/master will be at commit3 (where the main tree is at)
+			- But the remote branch's master* will be at commit5 since it'll take both the commit4 and the commit3
+```
+git pull
+```
 
 
 
+- Pushing your remote data to the main repository
+	- Note, this will not only update the main repository, but bring the remote repository's `origin/master` up-to-date on the remote branch
+```
+git push
+```
 
 
+- Problem, you made a new feature on a remote branch. But your master is behind a commit. You want to incorperate the new feature and push it to the origin
+	- The Origin looks like coomit0, commit1
+	- The remote branch looks like commit0, commit1, commit2, with the master* on commit2 and origin/master on commit1
+```
+git reset --hard origin/master # this is forcing the remote repository to move the master* back to commit1
+git checkout -b brandNewFeaure commit2 # this is making and selecting a new branch called brandNewFeature which was coded in commit2
+git push origin brandNewFeaure # this is pushing the new branch {brandNewFeaure} that was just select to the master (which now everything is up to date) 
+							   # and the origin has the new branch (with also still having its master on commit1)
+```
 
 
+- Problem:
+There are three feature branches -- side1 side2 and side3
+We want to push each one of these features, in order, to the remote
+The remote has since been updated, so we will need to incorporate that work as well
 
+	- Solved with fetch and rebase
+```
+git fetch # grabbing the remote, but HEAD is at side3
+git rebase origin/master side1 # this is rebasing the side1 ahead of the remote commit
+git rebase side1 side2 # this is rebasing side2 ahead of side1 
+git rebase side2 side3 
+git rebase side3 master
+git push # pushing all of the rebased code 
+```
+
+	- Solved with merge
+```
+git checkout master # because HEAD is at the end of side3 (commit 7 let's say)
+git pull # to make the origin up to date with the remote
+git merge side1 # merging the up to date origin/master
+git merge side2 # merging side2 ahead of side1 and origin/master (which will stay until push)
+git merge side3 
+git push # which will then make the remote up to date with the origin
+```
 
 
 

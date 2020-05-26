@@ -31,14 +31,6 @@ let arr2;
 arr2 = [...arr1];
 ```
 
-# this does not work, need more research into the apply() function with a spread operator
-```
-let arr = [1, 10, 20, 30];
-let max_value = Math.max.apply(null, arr) // have to pass null because apply() expects individual items separated by commas, returns 30
-
-let max_value_spread = Math.max().apply(null, ...arr) // deconstructs each element and passes them one by one
-```
-
 
 
 - In browser javascript (client side), the browser interprets and runs the javascript being sent to it. It is inside of a "window" object and allows the javascript to have access to the document object model of the browser (DOM). Everything written in "browser" javascript gets appended to the "window" object (even the DOM is inside the window object)
@@ -69,7 +61,21 @@ window.sayName(name); // note if you pass window.name you'll get a return value 
 ```
 
 
+- Back ticks for string formulating and passing variables through strings (instead of using a top of concatonation)
+  - Using back tics is very similar to fstrings in python
+  - _NOTE:_ you cannot use back tics to pass an object through, it will give an error of `TypeError: Cannot convert object to primitive value`
+```
+const path = require("path"); // node standard library
 
+
+const fileLocation = path.join(__dirname, 'app.js');
+
+// check this out
+console.log(`fileLocation: ${fileLocation}`);
+```
+
+
+## Objects
 - Destructoring an object
   - Quick way to get values from properties/keys in an obect
   - Also does the same with arrays
@@ -135,45 +141,324 @@ half(stats);
 ```
 
 
-- In browser javascript (client side), the browser interprets and runs the javascript being sent to it. It is inside of a "window" object and allows the javascript to have access to the document object model of the browser (DOM). Everything written in "browser" javascript gets appended to the "window" object (even the DOM is inside the window object)
+- freezing the object
+```
+> const x = [1,2,3]
+undefined
+> Object.freeze(x);
+[ 1, 2, 3 ]
+> x[1]=1
+1
+> x
+[ 1, 2, 3 ]
+> 
+```
+
+- more explicit way of showing the freezing of the object
+```
+function freezeObj() {
+  'use strict';
+  const MATH_CONSTANTS = {
+    PI: 3.14
+  };
+  // Only change code below this line
+
+  Object.freeze(MATH_CONSTANTS)
+  // Only change code above this line
+  try {
+    MATH_CONSTANTS.PI = 99;
+  } catch(ex) {
+    console.log(ex);
+  }
+  return MATH_CONSTANTS.PI;
+}
+
+const PI = freezeObj();
+     
+```
+
+- Object literals, think of it like the oposite of deconstructing an object
+```
+const getXY = (x, y) => ({
+  x: x,
+  y: y
+})
+
+const getAnotherXY = (x, y) => {x:y}
 
 ```
-// Browser JS example
-
-document.getElementById("html-id");
-
-// is actually the same thing as 
-window.document.getElementById("html-id"); 
-
-// everything is in the window object
-window.console.log("html-id"); 
 
 
-// even on custom variables and functions
-const name = "billy goat";
+- Object literals, think of it like the oposite of deconstructing an object
+```
+const getXY = (x, y) => ({
+  x: x,
+  y: y
+})
 
-window.name;
+const getAnotherXY = (x, y) => {x:y}
 
-function sayName(name){
-    console.log(name);
+```
+- Rewriting a function inside of an object
+```
+const bicycle1 = {
+  gear: 2,
+  setGear: function(newGear) {
+    this.gear = newGear;
+  }
+};
+bicycle1.setGeaobjectr(3);
+console.log(bicycle1.gear);
+
+const bicycle2 = {
+  gear: 2,
+  setGear(newGear) {
+    this.gear = newGear;
+  }
+};
+// changes the gear property to 3
+bicycle2.setGear(3);
+console.log(bicycle2.gear);
+```
+
+
+- Objects (has maps, aka dictionaries). Takes properties (or key value pairs)
+  - interestly, even if you initialize the object with a const, it's still mutable
+```
+const anObject = {
+  "an entree": "hamburger",
+  "my side": "veggies",
+  "the drink": "water",
+  waiter: "cute"
 };
 
-window.sayName(name); // note if you pass window.name you'll get a return value of undefined
+
+// grabbing the values from keys
+const entreeValue = anObject["an entree"];   
+const drinkValue = anObject["the drink"]
+const waiterValue = anObject.waiter;    
+
+
+// adding new keys and values
+anObject.place = "Chilis";
+anObject['happy day?'] = true;
+
+// removing a property
+delete anObject["an entree"];
+```
+
+- Chaining dot and bracket notation to select nested propery of an object
+```
+const myStorage = {
+  "car": {
+    "inside": {
+      "glove box": "maps",
+      "passenger seat": "crumbs"
+     },
+    "outside": {
+      "trunk": "jack"
+    }
+  }
+};
+
+const gloveBoxContents = myStorage.car.inside["glove box"];
 
 ```
 
-- Back ticks for string formulating and passing variables through strings (instead of using a top of concatonation)
-  - Using back tics is very similar to fstrings in python
-  - _NOTE:_ you cannot use back tics to pass an object through, it will give an error of `TypeError: Cannot convert object to primitive value`
+- Returning a boolean if a property exists in an object
 ```
-const path = require("path"); // node standard library
+anObject.hasOwnProperty("keyBeingSearchedFor");
 
-
-const fileLocation = path.join(__dirname, 'app.js');
-
-// check this out
-console.log(`fileLocation: ${fileLocation}`);
+// also this syntax works as well
+"keyBeingSearchedFor" in anObject;
 ```
+
+
+- 
+
+
+- Looping over an object to return a property and value pair (if it exists)
+```
+// Setup
+var contacts = [
+    {
+        "firstName": "Akira",
+        "lastName": "Laine",
+        "number": "0543236543",
+        "likes": ["Pizza", "Coding", "Brownie Points"]
+    },
+    {
+        "firstName": "Harry",
+        "lastName": "Potter",
+        "number": "0994372684",
+        "likes": ["Hogwarts", "Magic", "Hagrid"]
+    },
+    {
+        "firstName": "Sherlock",
+        "lastName": "Holmes",
+        "number": "0487345643",
+        "likes": ["Intriguing Cases", "Violin"]
+    },
+    {
+        "firstName": "Kristian",
+        "lastName": "Vos",
+        "number": "unknown",
+        "likes": ["JavaScript", "Gaming", "Foxes"]
+    }
+];
+
+const lookUpProfile = (name, prop) => {
+    //  looping over the indexes of the nested array
+    for (let i = 0; i < contacts.length; i++){
+        // checking to see if one of the properties has the passed value
+        if (contacts[i].firstName === name){
+            // checking to make sure the property exists if the firstName exists
+            if(prop in contacts[i]){
+                return contacts[i][prop]
+
+            } else {
+                // property failed
+                return "No such property";
+            }
+        }
+    }
+    // if the firstName fails, the loop breaks
+    return "No such contact"
+}
+```
+
+
+
+- Looping over an object to return a property and value pair (if it exists)
+```
+// Setup
+var contacts = [
+    {
+        "firstName": "Akira",
+        "lastName": "Laine",
+        "number": "0543236543",
+        "likes": ["Pizza", "Coding", "Brownie Points"]
+    },
+    {
+        "firstName": "Harry",
+        "lastName": "Potter",
+        "number": "0994372684",
+        "likes": ["Hogwarts", "Magic", "Hagrid"]
+    },
+    {
+        "firstName": "Sherlock",
+        "lastName": "Holmes",
+        "number": "0487345643",
+        "likes": ["Intriguing Cases", "Violin"]
+    },
+    {
+        "firstName": "Kristian",
+        "lastName": "Vos",
+        "number": "unknown",
+        "likes": ["JavaScript", "Gaming", "Foxes"]
+    }
+];
+
+const lookUpProfile = (name, prop) => {
+    //  looping over the indexes of the nested array
+    for (let i = 0; i < contacts.length; i++){
+        // checking to see if one of the properties has the passed value
+        if (contacts[i].firstName === name){
+            // checking to make sure the property exists if the firstName exists
+            if(prop in contacts[i]){
+                return contacts[i][prop]
+
+            } else {
+                // property failed
+                return "No such property";
+            }
+        }
+    }
+    // if the firstName fails, the loop breaks
+    return "No such contact"
+}
+``` 
+
+
+- Deleting specific key:value pairs in an object
+```
+let foods = {
+  apples: 25,
+  oranges: 32,
+  plums: 28,
+  bananas: 13,
+  grapes: 35,
+  strawberries: 27
+};
+
+// removes the key value pair
+delete foods.oranges;
+```
+
+
+- Using `for... in... ` to loop through an object
+```
+const users = {
+  Alan: {
+    online: false
+  },
+  Jeff: {
+    online: true
+  },
+  Sarah: {
+    online: false
+  }
+};
+
+
+function countOnline(usersObj) {
+  let number = 0;
+  for (let user in usersObj){
+    // console.log(user);
+    // both these syntaxs work for object unpacking
+    // console.log(usersObj[user].online) // remember to pass the newly created "property" as a variable and not a direct string/property name
+    if (usersObj[user]['online']){ // but in this situation, pass the direct second property name we're looking for
+      number++;
+    }
+  }
+  return number;
+}
+
+
+countOnline(users);
+```
+
+
+- Returning all of the keys of an object 
+_Note_ how the use of the Object class and we're passing the object through that class's method
+```
+let users = {
+  Alan: {
+    age: 27,
+    online: false
+  },
+  Jeff: {
+    age: 32,
+    online: true
+  },
+  Sarah: {
+    age: 48,
+    online: false
+  },
+  Ryan: {
+    age: 19,
+    online: true
+  }
+};
+
+function getArrayOfUsers(obj) {
+  return Object.keys(obj);
+}
+
+console.log(getArrayOfUsers(users));
+
+```
+
 
 ## Asynchronous code
 -  A feature of javascrip havng asynchronous code is that if there is an async callback, that return statment inside the callback will return at a different time than the outer most function
@@ -309,16 +594,6 @@ const PI = freezeObj();
      
 ```
 
-- Object literals, think of it like the oposite of deconstructing an object
-```
-const getXY = (x, y) => ({
-  x: x,
-  y: y
-})
-
-const getAnotherXY = (x, y) => {x:y}
-
-```
 
 - Strings are immutable
 - use "string literals" to pass variables inside the string with `${varNameGoes}` syntax
@@ -501,13 +776,13 @@ let lastLetterOfLastName = lastName[lastName.length - 1];
 ```
 
 - For loops
-  - Note, return cannot be used in for loops
+  - Note, keyword `return` cannot be used in for loops
 
 
 ```
 
 for (let i = 0; i < 20; i++){
-  console.log(i); // returns 
+  console.log(i); // "returns" 
 }
 
 
@@ -544,6 +819,31 @@ function testElseIf(val) {
 
 testElseIf(7);
 ```
+
+- Ternary operator
+  - Shortcut for if/else statements
+  - Very similar to an if/else statment or a switch statement, but nicer for quick inline conditional checking
+  - Syntax
+    - `condition ? statementIfTrue : statementIfFalse`
+
+```
+function checkEqual(a, b) {
+  return a === b ? "Equal" : "Not Equal"
+}
+
+checkEqual(1, 2);
+
+
+// chaining ternary operators
+function checkSign(num) {
+  return num > 0 ? "positive" 
+    : num < 0 ? "negative"
+    : "zero";
+}
+
+checkSign(10);
+```
+
 
 - Switch statements
 ```
@@ -666,6 +966,18 @@ const functionName = x => x *;
 functionName();
 ```
 
+
+- Object literals, think of it like the oposite of deconstructing an object
+```
+const getXY = (x, y) => ({
+  x: x,
+  y: y
+})
+
+const getAnotherXY = (x, y) => {x:y}
+
+```
+
 - Rewriting a function inside of an object
 ```
 const bicycle1 = {
@@ -674,7 +986,7 @@ const bicycle1 = {
     this.gear = newGear;
   }
 };
-bicycle1.setGear(3);
+bicycle1.setGeaobjectr(3);
 console.log(bicycle1.gear);
 
 const bicycle2 = {
@@ -689,7 +1001,7 @@ console.log(bicycle2.gear);
 ```
 
 
-- Obbjects (has maps, aka dictionaries). Takes properties (or key value pairs)
+- Objects (has maps, aka dictionaries). Takes properties (or key value pairs)
   - interestly, even if you initialize the object with a const, it's still mutable
 ```
 const anObject = {
@@ -732,11 +1044,6 @@ const gloveBoxContents = myStorage.car.inside["glove box"];
 
 ```
 
-- Returning a boolean if a property exists in an object
-```
-anObject.hasOwnProperty("waiter"); // true
-anObject.hasOwnProperty("billy goat"); // false
-```
 
 
 - Looping over an object to return a property and value pair (if it exists)
@@ -876,30 +1183,7 @@ function rangeOfNumbers(startNum, endNum) {
 console.log(countdown(10));
 ```
 
-## Ternary Operator `? :`
-- Very similar to an if/else statment or a switch statement, but nicer for quick inline conditional checking
-  - Syntax
-    - `condition ? statementIfTrue : statementIfFalse`
 
-```
-function checkEqual(a, b) {
-  return a === b ? "Equal" : "Not Equal"
-}
-
-checkEqual(1, 2);
-
-
-// chaining operators
-function checkSign(num) {
-  return num > 0 ? "positive" 
-    : num < 0 ? "negative"
-    : "zero";
-}
-
-checkSign(10);
-
-
-```
 
 ## DOM (Document Object Model)
 - The DOM is the model of the html structure of the website. With altering the dom, javascript can make elements (<h1>, <li>, ect) dynamic
@@ -1062,6 +1346,33 @@ console.log(typeof y); // return string
 - When testing, you need to export your functions/ect, so if you use a function locally, make sure to declare the function, and then export it at the bottom of the module/file. (If you don't use it locally, with node, you can declare the function with exports.functionName = () => {} which is uggly, but is something you might read some day) 
 
 - When installing a new package/library/module with npm, you can pick where it's saved with flags. For instance, we don't want our testng suite to be pushed to the client/server (most likely), so use the `--save-dev` flag to save it to the development package.json 
+
+
+- Timing functions to see performance (example from stackoverflow)
+```
+let t0 = performance.now()
+
+doSomething()   // <---- The function you're measuring time for 
+
+let t1 = performance.now()
+console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## FreeCodeCamp and other random examples
