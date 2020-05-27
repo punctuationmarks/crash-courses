@@ -368,6 +368,7 @@ git push # which will then make the remote up to date with the origin
 
 
 
+- Commit to braches, not to master
 
 
 

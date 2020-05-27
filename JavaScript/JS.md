@@ -15,7 +15,7 @@ if
 - Rest parameter `...` passed in functions
   - Allows for a variable number of _parameters_ to be passed, think of *args, **kwargs in python
 
-```
+```JS
 const sum = (...args) => args.reduce((a, b) => a + b, 0);
 ```
 
@@ -23,7 +23,7 @@ const sum = (...args) => args.reduce((a, b) => a + b, 0);
 	- This handy tool allows for dynamic spreading of _arguments_ that get passed to a function
 		- Meaning less boiler plate code and more abstraction
 
-```
+```JS
 // using the spread operator to copy all of the contents of an array
 const arr1 = ['JAN', 'FEB', 'MAR', 'APR', 'MAY'];
 let arr2;
@@ -35,7 +35,7 @@ arr2 = [...arr1];
 
 - In browser javascript (client side), the browser interprets and runs the javascript being sent to it. It is inside of a "window" object and allows the javascript to have access to the document object model of the browser (DOM). Everything written in "browser" javascript gets appended to the "window" object (even the DOM is inside the window object)
 
-```
+```JS
 // Browser JS example
 
 document.getElementById("html-id");
@@ -64,7 +64,7 @@ window.sayName(name); // note if you pass window.name you'll get a return value 
 - Back ticks for string formulating and passing variables through strings (instead of using a top of concatonation)
   - Using back tics is very similar to fstrings in python
   - _NOTE:_ you cannot use back tics to pass an object through, it will give an error of `TypeError: Cannot convert object to primitive value`
-```
+```JS
 const path = require("path"); // node standard library
 
 
@@ -82,7 +82,7 @@ console.log(`fileLocation: ${fileLocation}`);
   - _Note_, the variable names must == the properies or be explicityly declared 
   - _also note_ during property and value adding (when performing at the same time) you can use dot notation if the property being added is a single word, but you _must_ use bracket notation if you're using a previously declared variable (e.g. `const age = "person's age"; obj[age] = 21;` is valid, but dot notation would not be )
 
-```
+```JS
 const obj = {
   name: "Billy Goat",
   age: 42,
@@ -142,7 +142,7 @@ half(stats);
 
 
 - freezing the object
-```
+```JS
 > const x = [1,2,3]
 undefined
 > Object.freeze(x);
@@ -155,7 +155,7 @@ undefined
 ```
 
 - more explicit way of showing the freezing of the object
-```
+```JS
 function freezeObj() {
   'use strict';
   const MATH_CONSTANTS = {
@@ -178,7 +178,7 @@ const PI = freezeObj();
 ```
 
 - Object literals, think of it like the oposite of deconstructing an object
-```
+```JS
 const getXY = (x, y) => ({
   x: x,
   y: y
@@ -431,7 +431,7 @@ countOnline(users);
 
 - Returning all of the keys of an object 
 _Note_ how the use of the Object class and we're passing the object through that class's method
-```
+```JS
 let users = {
   Alan: {
     age: 27,
