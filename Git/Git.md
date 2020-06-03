@@ -368,7 +368,22 @@ git push # which will then make the remote up to date with the origin
 
 
 
+# Work on these!
 - Commit to braches, not to master
+- Deleting a branch after a pull request
+```
+$ git remote -v
+origin	https://github.com/DataVoke/auto-loto (fetch)
+origin	https://github.com/DataVoke/auto-loto (push)
+$ git push origin --delete Adding-Auto-Incrememnt-To-CX-Locks 
+Username for 'https://github.com': punctuationmarks
+Password for 'https://punctuationmarks@github.com': 
+To https://github.com/DataVoke/auto-loto
+ - [deleted]         Adding-Auto-Incrememnt-To-CX-Locks
+$ 
+```
+
+
 
 
 
@@ -616,4 +631,61 @@ $ git commit -am "...
  4 files changed, 12 insertions(+), 3 deletions(-)
  delete mode 100644 Django/ObeyTheTestingGoat/notes/.tests.py.swp
 
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# From Stack overflow
+```
+Setting your branch to exactly match the remote branch can be done in two steps:
+
+git fetch origin
+git reset --hard origin/master
+If you want to save your current branch's state before doing this (just in case), you can do:
+
+git commit -a -m "Saving my work, just in case"
+git branch my-saved-work
+Now your work is saved on the branch "my-saved-work" in case you decide you want it back (or want to look at it later or diff it against your updated branch).
+
+Note that the first example assumes that the remote repo's name is "origin" and that the branch named "master" in the remote repo matches the currently checked-out branch in your local repo.
+
+BTW, this situation that you're in looks an awful lot like a common case where a push has been done into the currently checked out branch of a non-bare repository. Did you recently push into your local repo? If not, then no worries -- something else must have caused these files to unexpectedly end up modified. Otherwise, you should be aware that it's not recommended to push into a non-bare repository (and not into the currently checked-out branch, in particular).
+
+--Dan Moulding
 ```

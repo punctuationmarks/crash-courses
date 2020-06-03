@@ -11,10 +11,8 @@
 - Callback functions
   - a function that executes on each individual element in an array (except for the first, if no "initialValue" is supplied)
   - When using callback functions (for sure on asynchronous functions) they only get triggered after the first function (the parent function) is either sucesssful or fails (so the callback can (usually) take an error)
-if
 - Rest parameter `...` passed in functions
   - Allows for a variable number of _parameters_ to be passed, think of *args, **kwargs in python
-
 ```JS
 const sum = (...args) => args.reduce((a, b) => a + b, 0);
 ```
@@ -31,6 +29,7 @@ let arr2;
 arr2 = [...arr1];
 ```
 
+- You cannot use if/else statements in anonymous arrow functions, use a ternary operator if you want to use an if/else
 
 
 - In browser javascript (client side), the browser interprets and runs the javascript being sent to it. It is inside of a "window" object and allows the javascript to have access to the document object model of the browser (DOM). Everything written in "browser" javascript gets appended to the "window" object (even the DOM is inside the window object)
@@ -826,7 +825,7 @@ testElseIf(7);
   - Syntax
     - `condition ? statementIfTrue : statementIfFalse`
 
-```
+```JS
 function checkEqual(a, b) {
   return a === b ? "Equal" : "Not Equal"
 }
@@ -842,6 +841,16 @@ function checkSign(num) {
 }
 
 checkSign(10);
+```
+
+```JS
+// you can't use if/else in anonymous arrow functions, so these are the same
+
+this.forEach(function (element) {if(callback(element) === true) newArray.push(element)})
+
+// ES6
+this.forEach(element => callback(element) ? newArray.push(element):false);
+  
 ```
 
 
