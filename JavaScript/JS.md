@@ -1,5 +1,14 @@
 # Fundamentals of JS, up to ES6
 
+
+
+
+
+
+
+
+
+
 ## House keeeping aka tips and tricks and reminders while working with JS
 
 - All variables and functions are global by default
@@ -72,6 +81,23 @@ const fileLocation = path.join(__dirname, 'app.js');
 // check this out
 console.log(`fileLocation: ${fileLocation}`);
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Objects
@@ -459,10 +485,46 @@ console.log(getArrayOfUsers(users));
 ```
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Asynchronous code
 -  A feature of javascrip havng asynchronous code is that if there is an async callback, that return statment inside the callback will return at a different time than the outer most function
 - Return statements inside of callbacks (or inside of promise -> then calls) aren't the return value for the overall function, but only the return value for the nested (callback) function, which is then passed to the outer most function once it is executed
 - When testing async code, use mocked data to avoid needless api calls and use async code inside of tests to verify the code is working properly (verified with passing tests)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Testing
 
@@ -471,6 +533,28 @@ console.log(getArrayOfUsers(users));
 - When testing async code, use mocked data to avoid needless api calls and use async code inside of tests to verify the code is working properly (verified with passing tests)
 - You can also mock entire packages (like axios for instance)
 - Write a ton of unit tests, a decent amount of functional tests (functions that call other functions) and very few end-to-end tests (front end tests that ensure the backend/api are working)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## `var` vs `const` vs `let`
@@ -615,6 +699,34 @@ const resultDisplayArray = makeList(result.failure); // returns three li items w
 ```
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Arrays
 - Mutable
 - Indexable
@@ -696,6 +808,28 @@ undefined
 > 
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Scope
 - Global Scope
   - Variables instatiated outside of a function 
@@ -705,8 +839,35 @@ undefined
   - Can also allow for the use of a locally scoped variable with the same name as a globally scoped variable
 
 
-## Sytntax notes
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Sytntax notes
 
 - `return` can only be called in a function
 
@@ -1105,6 +1266,54 @@ const lookUpProfile = (name, prop) => {
 }
 ``` 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## `this`
+- `.bind(this)`
+
+[MDN docs on bind method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Classes
   - Technically classes aren't robust like they are in Python or C, 
 
@@ -1128,14 +1337,80 @@ const thermos = new Thermostat(76); // Setting in Fahrenheit scale
 let temp = thermos.temperature; // 24.44 in Celsius
 thermos.temperature = 26;
 temp = thermos.temperature; // 26 in Celsius
-
 ```
+
+# Refactor Me!
+- Inheritance
+"In JavaScript, super refers to the parent class constructor. (In our example, it points to the React.Component implementation.)
+Importantly, you can’t use this in a constructor until after you’ve called the parent constructor. JavaScript won’t let you:"
+
+[MDN super](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## While and Do While loops
 ```
 
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Recursion (replacing for loops with a function that calls itself)
@@ -1191,6 +1466,33 @@ function rangeOfNumbers(startNum, endNum) {
 
 console.log(countdown(10));
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1278,6 +1580,26 @@ document.addEventListener('DOMContentLoaded',function(){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Importing Code
 - When importing, if you're importing a specific module, make sure to put the module in {}
 	- If you're importing the main library, don't put it in the {}
@@ -1331,6 +1653,32 @@ export default function(x, y){
 }
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Bebugging
 - Getting a `Uncaught ReferenceError: d3 is not defined at pen.js:11` (this example is for CodePen). Check your cookie privilages. Allow some cookies for the site to grab the d3 from d3js.org in this example
 ```
@@ -1367,6 +1715,26 @@ let t1 = performance.now()
 console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
