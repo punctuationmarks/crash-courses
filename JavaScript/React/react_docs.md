@@ -10,6 +10,11 @@ This is not React-specific behavior; it is a part of how functions work in JavaS
 
 If calling bind annoys you, there are two ways you can get around this. If you are using the experimental public class fields syntax, you can use class fields to correctly bind callbacks:
 
+>JSX comes with the full power of JavaScript. You can put any JavaScript expressions within braces inside JSX. Each React element is a JavaScript object that you can store in a variable or pass around in your program.
+
+
+
+
 ## State, functions and classes
 - Props are read only!
 All React components must act like pure functions with respect to their props.
