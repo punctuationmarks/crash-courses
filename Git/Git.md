@@ -36,7 +36,7 @@
 			- this seems to leave more breadcrumbs
 
 	- __rebasing vs merging when pushing new updates to remote branches__
-		- in order to push new updates to the remote branches, you need to incorportate the latest changes from the remote. You can use rebase or merge in the remote branch to acheive this (since the remote branch will most likely be different than the origin branch)
+		- In order to push new updates to the remote branches, you need to incorportate the latest changes from the remote. You can use rebase or merge in the remote branch to acheive this (since the remote branch will most likely be different than the origin branch)
 		- rebasing
 			- pros: rebasing makes the commit tree look tidy due to everything being in a straight succession
 			- cons: it modifies the (apparent) history in the commit tree
@@ -384,6 +384,14 @@ $
 ```
 
 
+
+- Grabbing a specific pull request that a team member is submitting from 3rd party (e.g. Github)
+	- Grabbing pull request #103 (which will be in the title or the url of the PR)
+	- Renaming the pull request to `pr-103`
+```
+git fetch origin pull/103/head:pr-103
+git checkout pr-103 
+```
 
 
 
