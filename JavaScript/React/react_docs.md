@@ -4,13 +4,65 @@
 
 - Handling events:
 
-You have to be careful about the meaning of this in JSX callbacks. In JavaScript, class methods are not bound by default. If you forget to bind this.handleClick and pass it to onClick, this will be undefined when the function is actually called.
+>You have to be careful about the meaning of this in JSX callbacks. In JavaScript, class methods are not bound by default. If you forget to bind this.handleClick and pass it to onClick, this will be undefined when the function is actually called.
 
-This is not React-specific behavior; it is a part of how functions work in JavaScript. Generally, if you refer to a method without () after it, such as onClick={this.handleClick}, you should bind that method.
+>This is not React-specific behavior; it is a part of how functions work in JavaScript. Generally, if you refer to a method without () after it, such as onClick={this.handleClick}, you should bind that method.
 
-If calling bind annoys you, there are two ways you can get around this. If you are using the experimental public class fields syntax, you can use class fields to correctly bind callbacks:
+>If calling bind annoys you, there are two ways you can get around this. If you are using the experimental public class fields syntax, you can use class fields to correctly bind callbacks:
 
 >JSX comes with the full power of JavaScript. You can put any JavaScript expressions within braces inside JSX. Each React element is a JavaScript object that you can store in a variable or pass around in your program.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -33,7 +85,7 @@ You can convert a function component like Clock to a class in five steps:
 - Replace props with this.props in the render() body.
 - Delete the remaining empty function declaration.
 
-```JS
+```js
 //  function
 function Clock(props) {
   return (
@@ -44,7 +96,7 @@ function Clock(props) {
   );
 }
 ```
-```JS
+```js
 // class
 class Clock extends React.Component {
   render() {
@@ -57,7 +109,7 @@ class Clock extends React.Component {
   }
 }
 ```
-```JS
+```js
 // calling either the class or the function
 function tick() {
   ReactDOM.render(
@@ -71,7 +123,7 @@ setInterval(tick, 1000);
 
 ### Adding state to a class
 
-```JS
+```js
 class Clock extends React.Component {
 
 //   Add a class constructor that assigns the initial this.state:
@@ -114,14 +166,245 @@ ReactDOM.render(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Component composition
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Context
 
 - Context creates a provider which passed down information/data to a consumer
   [Docs](https://reactjs.org/docs/context.html#when-to-use-context)
 
 > Before You Use Context
-> Context is primarily used when some data needs to be accessible by many components at different nesting levels. Apply it sparingly because it makes component reuse more difficult.
-> If you only want to avoid passing some props through many levels, component composition is often a simpler solution than context.
+> Context is primarily used when some data needs to be accessible by many components at different nesting levels. Apply it sparingly because it makes component reuse more difficult. If you only want to avoid passing some props through many levels, component composition is often a simpler solution than context.
+
+- This looks like it could lead to hairy bugs
+ > The propagation from Provider to its descendant consumers (including .contextType and useContext) is not subject to the shouldComponentUpdate method, so the consumer is updated even when an ancestor component skips an update.
+
+
+- Every context object comes with a provider component that can render the value of said object (___terminology___: the component pushing the context object is considered `providing` and the receiving component is considered `consuming` the object's value)
+
+- Note in react, every consumer that is a descendant of a provider will rerender when the context changes (when the `provider`'s `value` `prop` changes)
+
+- `createContext()`
+  - Creates a 'context' object
+  - When a component uses this object, it will return the current context value from the nearest branch
+  - The default value is ___only___ used when a component doesn't have a provder in its tree, meaning you can't pass `undefined` to a provider and get the default value (_what you get? idk, find out_)
+
+```js
+const ContextComponent = React.createContext(defaultValue);
+```
+
+
+- `Context.Provider`
+ - Accepts the value props consumed by descendent components and that will override the defaultValue
+ - One provider can be connected to many consumers
+```js
+<ContextComponent.Provider value={/*whatever desired value*/}>
+
+```
+
+
+- `Context.Consumer`
+  - Consumes the context object's value, this is done through a function that takes that value (recommended to see `render props` concept)
+
+
+```js
+<ContextComponent.Consumer>
+  {value => /* render something based on the context value */}
+</ContextComponent.Consumer>
+```
+
+> Requires a function as a child. The function receives the current context value and returns a React node. The value argument passed to the function will be equal to the value prop of the closest Provider for this context above in the tree. If there is no Provider for this context above, the value argument will be equal to the defaultValue that was passed to createContext().
+
+
+
+- `Context.displayName` (_beneficial for debugging_)
+
+ - This allows the overwriting of the displayed name in the react developer tools, for ease in debugging
+
+ ```js
+const MyContext = React.createContext(/* some value */);
+MyContext.displayName = 'MyDisplayName';
+
+<MyContext.Provider> // "MyDisplayName.Provider" in DevTools
+<MyContext.Consumer> // "MyDisplayName.Consumer" in DevTools
+ ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -156,7 +439,7 @@ ReactDOM.render(
 
 - Use a variable to hold a component, then render that component based on some condition.
 
-```JS
+```js
 import LogoutButton from "...";
 import LoginButton from "...";
 
@@ -201,7 +484,7 @@ ReactDOM.render(
 
 
 - Using JSX to wrap a conditional, anything inside `{}` will be concidered a conditional in JSX
-```JS
+```js
 
 
 
@@ -228,7 +511,7 @@ ReactDOM.render(
 
 - Using ternary operators to conditionally display texts or elements/components
 
-```JS
+```js
 render() {
   const isLoggedIn = this.state.isLoggedIn;
   return (
@@ -239,7 +522,7 @@ render() {
 ```
 
 
-```JS
+```js
 render() {
   const isLoggedIn = this.state.isLoggedIn;
   return (
@@ -254,7 +537,7 @@ render() {
 
 
 - Using `null` as props on a component to not render something
-```JS
+```js
 function WarningBanner(props) {
   if (!props.warn) {    // so if props.warn === true, then this condition will fail and it'll run
     return null;  
@@ -314,10 +597,72 @@ ReactDOM.render(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Lists and Keys in react
 
 - Mapping over passed props and dynamically rendering the number of li items, with unique keys
-```JS
+```js
 function NumberList(props) {
   const numbers = props.numbers;
   const listItems = numbers.map((number) =>
@@ -350,7 +695,7 @@ ReactDOM.render(
 
 - When extracting a component, put the keys on the individually rendered components, not the html tags themselves
   - Examples are incorrect way of setting keys and then refactored correctly
-```JS
+```js
 // incorrect way to handle keys
 function ListItem(props) {
   const value = props.value;
@@ -381,7 +726,7 @@ ReactDOM.render(
 );
 ```
 
-```JS
+```js
 // refactored keys
 function ListItem(props) {
   // Correct! There is no need to specify the key here:  
@@ -409,7 +754,7 @@ ReactDOM.render(
 
 
 - When you want to use a component's id but also need a key, pass both explicitly so that you can use the props.id
-```JS
+```js
 const content = posts.map((post) =>
   <Post
     key={post.id}    
