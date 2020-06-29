@@ -502,7 +502,15 @@ console.log(getArrayOfUsers(users));
 ## Asynchronous code
 -  A feature of javascrip havng asynchronous code is that if there is an async callback, that return statment inside the callback will return at a different time than the outer most function
 - Return statements inside of callbacks (or inside of promise -> then calls) aren't the return value for the overall function, but only the return value for the nested (callback) function, which is then passed to the outer most function once it is executed
+- Using the syntax `async ... await` is shorthand for explicitly making Promise objects. Example given by MDN
+```
+
+```
+
+_Gotchas_
 - When testing async code, use mocked data to avoid needless api calls and use async code inside of tests to verify the code is working properly (verified with passing tests)
+
+
 
 
 
