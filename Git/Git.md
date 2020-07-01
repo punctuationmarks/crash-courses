@@ -387,10 +387,10 @@ $
 
 - Grabbing a specific pull request that a team member is submitting from 3rd party (e.g. Github)
 	- Grabbing pull request #103 (which will be in the title or the url of the PR)
-	- Renaming the pull request to `pr-152`
+	- Renaming the pull request to `pr-179`
 ```
-git fetch origin pull/152/head:pr-152
-git checkout pr-152 
+git fetch origin pull/179/head:pr-179
+git checkout pr-179 
 ```
 
 
