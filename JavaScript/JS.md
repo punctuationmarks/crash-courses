@@ -500,7 +500,7 @@ console.log(getArrayOfUsers(users));
 
 
 ## Asynchronous code
--  A feature of javascrip havng asynchronous code is that if there is an async callback, that return statment inside the callback will return at a different time than the outer most function
+- Asynchronous code runs like the language is multi-threaded instead of single threaded. In Javascript, `async` functions always return a promise, which is only returned upon success or failure. 
 - Return statements inside of callbacks (or inside of promise -> then calls) aren't the return value for the overall function, but only the return value for the nested (callback) function, which is then passed to the outer most function once it is executed
 - Using the syntax `async ... await` is shorthand for explicitly making Promise objects. Example given by MDN
 ```

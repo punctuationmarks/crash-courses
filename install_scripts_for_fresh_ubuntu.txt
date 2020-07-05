@@ -23,6 +23,11 @@ sudo apt-get install -y nodejs -y &&
 sudo apt install usb-creator-gtk -y && # for disk creator for iso to usb (needed for minimal ubuntu builds)
 sudo apt-get install ubuntu-drivers-common && 
 sudo ubuntu-drivers autoinstall &&
+sudo apt install apt-transport-https ca-certificates curl software-properties-common && # for docker
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - &&
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" &&
+sudo apt update &&
+apt-cache policy docker-ce &&
 snap install spotify && # optional
 sudo apt-get install gdebi-core && # for unpacking .deb
 wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-1.2.5042-amd64.deb && # up-to-date as of April 2020
