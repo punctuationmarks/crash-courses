@@ -1,3 +1,6 @@
+things_to_build.md
+
+good_to_have.md
 
 # Created by https://www.gitignore.io/api/r,node,venv,linux,python
 # Edit at https://www.gitignore.io/?templates=r,node,venv,linux,python
@@ -283,5 +286,4 @@ pip-selfcheck.json
 
 # End of https://www.gitignore.io/api/r,node,venv,linux,python
 
-things_to_build.md
 
