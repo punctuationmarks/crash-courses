@@ -20,6 +20,10 @@ sudo apt update &&
 sudo apt install brave-browser -y &&
 curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash - && # for nodejs and npm
 sudo apt-get install -y nodejs -y &&
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash # for nvm
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - # yarn
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update && sudo apt install yarn
 sudo apt install usb-creator-gtk -y && # for disk creator for iso to usb (needed for minimal ubuntu builds)
 sudo apt-get install ubuntu-drivers-common && 
 sudo ubuntu-drivers autoinstall &&
