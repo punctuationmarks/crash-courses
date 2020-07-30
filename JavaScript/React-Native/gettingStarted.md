@@ -23,12 +23,36 @@ $ npx react-native start
 $ npx react-native run-android
 ```
 
+## Views
 
+### `<ScrollView>`
+
+- Scrolling container that can even contain other views (from webdev, think `<div>`). Loads entire view even if not visible on current screen. 
+
+
+### `<FlatList>`
+
+- List of updating content that is from a database or some form of Javascript object or a dataframe/csv whatever that is dynamic. Works well on long lists. Is lazy loaded (meaning only rendering what is needed for the current screen, if not in user's view (ie eyesight) then it will not be rendered). 
 
 # Gotchas
+
+- You must import React to use any JSXp
+
+- Navigators can only contain screens
+```JS
+        <Stack.Navigator headerMode="none">
+            <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="CreateAccount" component={CreateAccount} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+            <Text>This is invalid and will throw error</Text>
+            <Stack.Screen name="ResetPassword" component={ResetPassword} />
+        </Stack.Navigator>
+
+```
+
 - All text has to be in `<Text>`, so remember nothing is freefloating, even during "debugging"
 
-### Things are very similar, but different for web dev, 
+- Things are very similar, but different for web dev, 
 Text input example:
 
 ```js

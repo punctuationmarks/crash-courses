@@ -421,6 +421,40 @@ git checkout pr-179
 
 
 
+- Want to see whats running?
+This will show you a list of everything that's running. You'll need this to kill the process (if using `kill` since it takes an id)
+```
+$ ps -ax
+```
+
+
+- `kill` vs `killall`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -6096,6 +6096,27 @@ export default function(x, y){
 
 
 
+# Syntax tricks:
+```JS
+  if (existingUser?.id){}
+  // is same as 
+    if (existingUser && existingUser.id){}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
