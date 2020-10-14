@@ -6088,10 +6088,16 @@ export default function(x, y){
 
 
 
+# Interesting Syntax
+- `??`
+  - Nullish coalesing operator. This returns its left side first if it is not null or undefined, if the left hand side is null or undefined, then it'll return the right side. If the right side is null or undefined, it will return whatever is in the right hand side (either null or undefined)
 
 
+- `!!`
+  - "bang, bang you're boolean" 
 
-
+- `object?.attribute`
+  - Null checck if the attribute exists before returning the value of the key
 
 
 
