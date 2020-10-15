@@ -1,5 +1,4 @@
-# Ajax
-- Aysnchronous JavaScript and XML
+# Ajax - Aysnchronous JavaScript and XML
 - This allows for json data to be piped in from an API as bytes and then transformed into a string
 
 

@@ -2,9 +2,8 @@
 
 - Don't alter any variables
 - Return new variables
-- Side effects are 
 - Declare function arguments _any computation inside a function depends only on the arguments, and not on any global object or variable_
-
+- Side effects are anything that mutates a variable in a way that is unpredictable, but this is also expanded to input/output operations (I/O) and graphical user interfaces (GUI)
 
 ```JS
 // The global variable
@@ -29,11 +28,10 @@ console.log(bookList);
 
 ```
 
-
-
 # Map
-Map method (because techincally it's a function inside the Map class) iterates over each item in an array, returning the individual items with some computation performed on each. The array passed through it is not changed 
 
+A map is an interator that loops of the individual data inside an "iterable" (anything that can be looped over). In Javascript `.map()` is a method (coming from the prototype Map class) that iterates over an array and returns a new array with data changed however desired - just like a for loop.  
+The array passed through it is not changed, which is a foundational concept in functional programm
 
 ```JS
 // The global variable
@@ -150,7 +148,7 @@ var watchList = [
   }
 ];
 
-// all three of these do the same thing
+// all three of these do the same operation
 const ratings_map_1 = watchList.map(item => ({
   title: item["Title"],
   rating: item["imdbRating"]
@@ -167,9 +165,8 @@ for(var i=0; i < watchList.length; i++){
 console.log(JSON.stringify(ratings_map_1));
 console.log(JSON.stringify(ratings_map_2));
 console.log(JSON.stringify(ratings_for_loop));
-    
-```
 
+```
 
 - Building a map method from scratch
   - Three different ways to do it (at least here shown)
@@ -183,7 +180,7 @@ var s = [23, 65, 98, 5];
 // all three of these are the same, allow just one to run
 Array.prototype.myMap = function(callback){
   var newArray = [];
-  
+
   this.forEach(element => newArray.push(callback(element)))
   return newArray;
 
@@ -191,7 +188,7 @@ Array.prototype.myMap = function(callback){
 
 // Array.prototype.myMap = function(callback){
 //   var newArray = [];
-  
+
 //   for (let i = 0; i < this.length; i++) {
 //     newArray.push(callback(this[i]));
 //   }
@@ -217,15 +214,10 @@ console.log(new_s) // returns [ 46, 130, 196, 10 ]
 console.log(s) // showing the original array was unchange
 ```
 
-
-
 # Filter
+
 - Iterates over every element in an array and only returns the elements that the condition returns true
   - Does this without modifying the original array
-
-
-
-
 
 ```JS
 // The global variable
@@ -344,8 +336,8 @@ var watchList = [
 
 
 var moviesAndRatings_8_up = watchList
-.map(movie => { 
-  return { title: movie['Title'], rating: movie['imdbRating']} 
+.map(movie => {
+  return { title: movie['Title'], rating: movie['imdbRating']}
   })
 .filter((movie) => parseFloat(movie["rating"]) >= 8.0);
 
@@ -354,9 +346,9 @@ console.log(moviesAndRatings_8_up);
 
 ```
 
-
 - Building a filter method from scratch
-  - Shown two ways to do it, with forEach and a for loop 
+  - Shown two ways to do it, with forEach and a for loop
+
 ```JS
 // The global variable
 var s = [23, 65, 98, 5];
@@ -364,7 +356,7 @@ var s = [23, 65, 98, 5];
 Array.prototype.myFilter_forEach = function(callback){
   var newArray = [];
 
-  // old school 
+  // old school
   // this.forEach(function (element) {if(callback(element) === true) newArray.push(element)})
   // ES6
   this.forEach(element => callback(element) ? newArray.push(element):false);
@@ -397,7 +389,6 @@ console.log(s)
 
 Returns a copy of an array with an optional starting and ending index (non-inclusive)
 `array.slice(start, end);`
-
 
 ```JS
 function sliceArray(anim, beginSlice, endSlice) {
