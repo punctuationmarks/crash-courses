@@ -1,18 +1,18 @@
 # Ajax - Aysnchronous JavaScript and XML
+
 - This allows for json data to be piped in from an API as bytes and then transformed into a string
-
-
 
 - Simple example from FreeCodeCamp's cat json api
 - Note this is not upto date on "modern" pracitces, use the fetch() call normally
+
 ```
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('getMessage').onclick = function () {
             // initializing the class
             const request = new XMLHttpRequest();
-            // defining the type of request 
-            // where the reqest is coming from 
+            // defining the type of request
+            // where the reqest is coming from
             // and boolean on asynchronous request
             request.open("GET", '/json/cats.json', true)
             // actually sending the request
@@ -73,10 +73,8 @@
 
 ```
 
-
-
-
 - Here is the same script as above, but using the modern fetch() method (which returns a promise) instead of XMLHttpRequest() class
+
 ```
 document.addEventListener('DOMContentLoaded', () =>  {
     document.getElementById('getMessage').onclick = () => {
@@ -89,19 +87,18 @@ document.addEventListener('DOMContentLoaded', () =>  {
 });
 ```
 
-
-
 # Things to note while working in JSON with javascript
+
 - Since the JSON data is returned as an array of objects and objects can also have arrays and objects in them, accessing the data can look interesting
+
 ```
 json[2].keyName[1] // this returns the the second item in the keyName object in the third object in the returned json array
 // or it is the third objects' keyName key and only returning the specified index of that value's array
 ```
 
-
-
 - Filtering out JSON objects based on index (since json data is an array)
 - Example from freecodecamp
+
 ```
 <script>
     document.addEventListener('DOMContentLoaded', function(){
@@ -171,9 +168,9 @@ json[2].keyName[1] // this returns the the second item in the keyName object in 
 
 ```
 
-
 - Post requests
   - Example from freecodecamp
+
 ```
 <script>
     document.addEventListener('DOMContentLoaded', function(){
