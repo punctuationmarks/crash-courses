@@ -287,3 +287,4 @@ pip-selfcheck.json
 # End of https://www.gitignore.io/api/r,node,venv,linux,python
 
 
+local.config.js

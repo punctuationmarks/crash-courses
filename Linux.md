@@ -102,6 +102,12 @@ rm *.flac
 $ omxplayer -o local AUDIO_FILE.mp3
 ```
 
+- Find files by user and group
+```
+$ find . -group groupname -user username
+
+```
+
 
 - Print all folders in a directory, print them with their size
 ```
@@ -136,4 +142,22 @@ $ find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
 ```
 $ fim {image.jpg}
 
+```
+
+
+- Have a file that has "-" (without quotation marks) in the beginning of the file and you only have read access?
+```
+$ cat < -filename
+```
+
+
+- Displaying contents of a file in terminal can also be used with "more"
+```
+more filename 
+```
+
+## Piping
+- Using sort to sort the lines of a text file, and unique (with the unique only flag) to return only unique occurances and print it to the screen with less
+```
+$ sort data.txt | uniq -u | less
 ```
