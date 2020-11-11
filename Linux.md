@@ -2,11 +2,11 @@ _these are all for Ubunutu/Debian distros_
 
 # Staples for daily functioning
 
-
 - One of the most important function is the manual and how to search with it
+
 ```bash
 $ man programYouKnowTheNameOf # this will return the manual of programYouKnowTheNameOf
-$ man -k want to look this up # this will return everything that has those 
+$ man -k want to look this up # this will return everything that has those
 
 ```
 
@@ -32,7 +32,8 @@ $ whoami
 ```
 
 - Print all the groups of the current user
-    - _NOTE_ if your user is root/admin, the user might not be in all groups but it doesn't matter since the root owns the files
+  - _NOTE_ if your user is root/admin, the user might not be in all groups but it doesn't matter since the root owns the files
+
 ```bash
 $ groups
 ```
@@ -51,8 +52,19 @@ _or_
 ls /ect/apt/sources.list.d
 ```
 
-- Remove PPA's (when they're dead or removing package/program)
-  https://vitux.com/how-to-add-remove-ppa-repositories-in-ubuntu/
+- Remove PPA's (when they're dead or left **after** purging a package/program)
+
+```bash
+sudo add-apt-repository --remove ppa:Desired_PPA_Name/ppa
+```
+
+_or_
+
+```bash
+# find the desired ppa in this dir
+sudo ls /etc/apt/sources.list.d/
+sudo rm -i /etc/apt/sources.list.d/Desired_PPA_Name.list
+```
 
 - Listing all of snap packages (will not be listed with dpgk since different package manager)
 
@@ -121,10 +133,10 @@ $ echo "venv" >> .gitignore
 
 ## Deleting files and killing processes
 
-
 - Process status `ps` is a very powerful tool to see what processes are running, how and where. Check out the manual
 
 - Find a process and kill it
+
 ```bash
 $ ps aux | grep partOfProcessName # ps aux lists all of the running processes on the UNIX system, grep is regex for the program name. This will return a PID (proccess id)
 $ kill 1234 # kill the process of the PID 1234. This is done so "gracefully", by shutting it down
@@ -132,7 +144,6 @@ $ kill -9 1234 # this is "kill immediately"
 
 
 ```
-
 
 ## Finding and mutating found files
 
@@ -143,20 +154,19 @@ $ kill -9 1234 # this is "kill immediately"
 $ grep -E "functionName1|orFunctionName2" directoryName/fileName.py
 ```
 
-- Find files by user and/or group 
+- Find files by user and/or group
 
 ```
 $ find . -group groupname -user username
 ```
 
-
 - Use wildcards for returning files and dirs
+
 ```bash
 $ ls * # prints the entire directory and all sub directories
 $ ls *ing # prints every file or dir that ends in "ing"
 $ ls P*** # prints every file or dir that starts with a "P" and is only 4 characters long
 ```
-
 
 - Print all folders in a directory, print them with their size
 
@@ -209,18 +219,19 @@ more filename
 ```
 
 - Concatonate multiple files and print them to the screen
+
 ```
 $ cat file1 file2 file3
 ```
 
-
 - Concatonate multiple files and concatonate them onto an output file's original content
+
 ```
 $ cat file1 file2 file3 >> outputfile
 ```
 
-
 - Concatonate multiple files and over write the outputfile (erasing the file's original content)
+
 ```
 $ cat file1 file2 file3 > outputfile
 ```
