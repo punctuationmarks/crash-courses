@@ -142,6 +142,15 @@ $ ps aux | grep partOfProcessName # ps aux lists all of the running processes on
 $ kill 1234 # kill the process of the PID 1234. This is done so "gracefully", by shutting it down
 $ kill -9 1234 # this is "kill immediately"
 
+```
+
+- Let's say you're trying to run a node app on port 3000 and some reason some phantom program is also running on 3000 from leaving your development machine on over night. Node kicks out something like `error listen EADDRINUSE: address already in use :::3000. Run CLI with --verbose flag for more details.`. Grab the PID on that port and shut down the program
+
+```bash
+# this is return the list of everything on that port, grab the PID
+$ lsof -i:3000
+...
+$ kill -9 149459
 
 ```
 
@@ -294,4 +303,99 @@ $ chmod ugo-rwx filename
 # allowing the current group to have write permissions on everything in the current directory
 $ chmod g+w *
 
+```
+
+# PGP Keys
+
+- Generating a new key
+
+```bash
+
+$ sudo apt install gnupg2 gpa
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following package was automatically installed and is no longer required:
+  libnvidia-common-435
+Use 'sudo apt autoremove' to remove it.
+The following NEW packages will be installed:
+  gnupg2 gpa
+0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.
+Need to get 310 kB of archives.
+After this operation, 1,496 kB of additional disk space will be used.
+Get:1 http://us.archive.ubuntu.com/ubuntu focal/universe amd64 gnupg2 all 2.2.19-3ubuntu2 [5,316 B]
+Get:2 http://us.archive.ubuntu.com/ubuntu focal/universe amd64 gpa amd64 0.10.0-3 [304 kB]
+Fetched 310 kB in 1s (320 kB/s)
+Selecting previously unselected package gnupg2.
+(Reading database ... 203012 files and directories currently installed.)
+Preparing to unpack .../gnupg2_2.2.19-3ubuntu2_all.deb ...
+Unpacking gnupg2 (2.2.19-3ubuntu2) ...
+Selecting previously unselected package gpa.
+Preparing to unpack .../gpa_0.10.0-3_amd64.deb ...
+Unpacking gpa (0.10.0-3) ...
+Setting up gnupg2 (2.2.19-3ubuntu2) ...
+Setting up gpa (0.10.0-3) ...
+Processing triggers for mime-support (3.64ubuntu1) ...
+Processing triggers for gnome-menus (3.36.0-1ubuntu1) ...
+Processing triggers for man-db (2.9.1-1) ...
+Processing triggers for desktop-file-utils (0.24-1ubuntu3) ...
+
+$ gpg --full-generate-key
+gpg (GnuPG) 2.2.19; Copyright (C) 2019 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Please select what kind of key you want:
+   (1) RSA and RSA (default)
+   (2) DSA and Elgamal
+   (3) DSA (sign only)
+   (4) RSA (sign only)
+  (14) Existing key from card
+Your selection? 1
+RSA keys may be between 1024 and 4096 bits long.
+What keysize do you want? (3072) 4096
+Requested keysize is 4096 bits
+Please specify how long the key should be valid.
+         0 = key does not expire
+      <n>  = key expires in n days
+      <n>w = key expires in n weeks
+      <n>m = key expires in n months
+      <n>y = key expires in n years
+Key is valid for? (0) 0
+Key does not expire at all
+Is this correct? (y/N) y
+
+GnuPG needs to construct a user ID to identify your key.
+
+Real name: punctuationmarks
+Email address: punctuationmark@protonmail.com
+Comment:
+You selected this USER-ID:
+    "punctuationmarks <punctuationmark@protonmail.com>"
+
+Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? o
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+gpg: key D5952815F96B6F78 marked as ultimately trusted
+gpg: directory '/home/punctuationmarks/.gnupg/openpgp-revocs.d' created
+gpg: revocation certificate stored as '/home/punctuationmarks/.gnupg/openpgp-revocs.d/C3849665CA8DE2BE145463A4D5952815F96B6F78.rev'
+public and secret key created and signed.
+
+pub   rsa4096 2020-11-12 [SC]
+      C3849665CA8DE2BE145463A4D5952815F96B6F78
+uid                      punctuationmarks <punctuationmark@protonmail.com>
+sub   rsa4096 2020-11-12 [E]
+
+```
+
+- Managing key with GPA
+
+```
+$ sudo gpa
 ```
