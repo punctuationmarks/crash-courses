@@ -25,3 +25,12 @@
 
 - Packet Sniffers
   Capture the traffic being transmitted over a network. Much easier to do on wireless, but can be done on cabled. Usually combined with **protocol analyzers** which allow for analyzing the the data further. Even though when unicast, broadcast and multicast traffic is sent it's only sent to the Destination MAC Address, sniffers can force the network to work in **\_promiscuous mode** which means that all traffic can be processed by the sniffer. Popular options for this are wireshark, libpcap, tcpdump, and winpcap (windows).
+
+
+
+
+
+# Hubs and Bridges
+These are legacy layer one devices, but they are still used some places.
+
+- Hubs
