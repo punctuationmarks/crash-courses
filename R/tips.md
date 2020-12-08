@@ -24,20 +24,19 @@ ALSO, when using either, put the most strict condition first, since R linearly p
 
 ### Filtering observations to see outliers and what needs to be cleaned
 
-```
+```r
 
 # script to filter to your desires
 # so you can grab anything from the select variable
 # this selects all of the observations with a backslash in the variables VARIABLE_NAME
 
-```
 x <-
   wrangled.df %>%  dplyr::filter(grepl("/", VARIABLE_NAME))
 ```
-
 ### Mutating the observation after you find a pattern of messy data in the obseravtion 
-	_(from using the above "algorithm" to see what you're working with, filtering using things like the interstate)_
-```
+_(from using the above "algorithm" to see what you're working with, filtering using things like the interstate)_
+
+```r
 wrangledUOF.df <-
   wrangledUOF.df %>%  dplyr::mutate(STREET = ifelse(
     grepl('I70|I65|I465|I-70|I-65|I-465|INTERSTATE',
@@ -51,8 +50,8 @@ wrangledUOF.df <-
 
 # Joining CSV tables:
 
-```
-# then combine all of these with join_full()
+```r
+# combine all of these with join_full()
 # have since moved the saved files for organization, hense the path differences
 geo_1 <-
   read_csv("../CleanData/UOF/geoCodedAddressesUOF_1_10000.csv")
@@ -76,5 +75,4 @@ join_4 <- full_join(join_3, geo_5)
 
 final_join <- full_join(join_4, geo_6) %>%
   write_csv("cleanedUOF_withGeoLocation.csv")
-
 ```

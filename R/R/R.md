@@ -4,10 +4,7 @@
 
 ## Matching strings and renaming 'obersvations' with mutate
 
-```
-
-
-
+```r
 #### NARROW CRIME SKELETON, NARROWS CRIMES INTO SMALLER SECTIONS ####
 NARROW_CRIME_2019 <- ucr_2019 %>% 
   mutate(CRIME = if_else(stringr::str_detect(ucr_2019$CRIME, "(LARCENY)"), "LARCENY", CRIME)) %>% 
