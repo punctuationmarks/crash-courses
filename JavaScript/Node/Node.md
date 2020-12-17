@@ -1,69 +1,95 @@
 # Node
 
-- Allows javascript to 
-    - read, write and access files on the server
-    - create a server
-    - connecting to a database
-    - essentially allows javascript to be a backend scripting language
+- Allows javascript to
+
+  - read, write and access files on the server
+  - create a server
+  - connecting to a database
+  - essentially allows javascript to be a backend scripting language
 
 - Built as a wrapper on chromium's V8 engine. Built in C++ and allows javscript to access the v8 engine
- 
 
+## Package.json
 
+- Version manager for node
+  - uses npm or yarn or deno
+
+#### Tips:
+
+- Breaking changes happen at major updates (e.g. 4.0.0 to 5.0.0), minor updates are backwards compatible (e.g. 4.1.0 to 4.4.0) and patches are non breaking.
+
+- If you want node to automatically update your dependency with any patches use a tidla
+
+```json
+{
+  //...
+  "dependencies": {
+    "moment": "~2.14.0"
+  }
+}
+```
+
+- If you want node to automatically update your dependency with any minor release update use a carrot
+
+```json
+{
+  //...
+  "dependencies": {
+    "moment": "^2.14.0"
+  }
+}
+```
 
 - In browser javascript (client side), the browser interprets and runs the javascript being sent to it. It is inside of a "window" object and allows the javascript to have access to the document object model of the browser (DOM). Everything written in "browser" javascript gets appended to the "window" object (even the DOM is inside the window object)
 
-```
+```js
 // Browser JS example
 
 document.getElementById("html-id");
 
-// is actually the same thing as 
-window.document.getElementById("html-id"); 
+// is actually the same thing as
+window.document.getElementById("html-id");
 
 // everything is in the window object
-window.console.log("html-id"); 
-
+window.console.log("html-id");
 
 // even on custom variables and functions
 const name = "billy goat";
 
 window.name;
 
-function sayName(name){
-    console.log(name);
-};
+function sayName(name) {
+  console.log(name);
+}
 
 window.sayName(name); // note if you pass window.name you'll get a return value of undefined
-
 ```
 
 - Node handles javascript different, there is no window object and there is no DOM. Each file is considered to be a "module" which is localized javascript written under a "wrapper" of an function that takes exports, require, module, the filename and the directory name (and subsequent path)
 
 - The core concept of wrapping modules
-    - Everything done in node is wrapped in a function
-    - Everything gets an Immediately invoked function expression  (IIFE)
-    - All of the parameters in the function are local to the module
+  - Everything done in node is wrapped in a function
+  - Everything gets an Immediately invoked function expression (IIFE)
+  - All of the parameters in the function are local to the module
 
-```
-/** using the keyword arguments 
-* will return an object of 5 properties
-*/
+```js
+/** using the keyword arguments
+ * will return an object of 5 properties
+ */
 
 // (function (exports, require, module, __filename, __dirname){ // the immediately invoked function expression
-   console.log(arguments); 
+console.log(arguments);
 // return ...
-// })() // executed immediately 
+// })() // executed immediately
 ```
 
+- **event loop**
 
-
-- __event loop__
   - taking the asynchronous concept to the next level with having blocks of async code to be passed over while other things get done and coming back to the async function when there is more available processing power, ect
 
+- `exports` is an object that can be changed by assigning it. It is used to export however many functions from one module to another that is desired
+  - Also is an alias for `module.exports`
 
-- `exports` is an object that can be changed  by assigning it. It is used to export however many functions from one module to another that is desired
-    - Also is an alias for `module.exports`
 ```
 // at the end of a file...
 
@@ -81,9 +107,8 @@ module.exports.function2 = function2;
 
 ```
 
-
 - `require`
-    - straight node imports are done using the `require()` function to pull out the exports and assigning that to a variable
+  - straight node imports are done using the `require()` function to pull out the exports and assigning that to a variable
 
 ```
 const functionNameButCanBeWhatever = require("./pathToModule/module.js");
@@ -92,27 +117,25 @@ const functionNameButCanBeWhatever = require("./pathToModule/module.js");
 - `__filename` and `__dirname` return the path to the current module and the current module's directory, respectively
 
 - Installing node also installs npm (node's _package manager_) and npx (node's _package runner_)
-    - note on npx, it's a package runner, so use it to run packages, like `$ npx create-react-apt` but still use node to run the server or client `$ npm run dev` for example
+
+  - note on npx, it's a package runner, so use it to run packages, like `$ npx create-react-apt` but still use node to run the server or client `$ npm run dev` for example
 
 - Node typically will be in an `app.js`, `index.js` or `server.js` file, depending on the project and what's happening. Obviously there can be multiple modules (node files) that can be exported and then imported into the `server.js` (which is a common practice, think models that connect to respective api/routes which connect to the server)
 
-
-
-
-
-
 # Tips and tricks
+
 - Access the node shell in the terminal (linux) with `$ node`
-- Return all of the available functions/methods/objects by pressing `tab` twice while inside of node 
-    - Return all of the functions/methods nested under another call by typing the desired object/function  and double tapping `tab` again
-    - This also applies to variables
-    - Example below: 
-        - shows the first time just double tapping `tab`, 
-        - then `Array.` + `tab tab`, 
-        - then `Array.prototype.` + `tab tab`, 
-        - and finally declaring a new variable that's an array and logging the possible array functions with `array_example.` + `tab tab`
+- Return all of the available functions/methods/objects by pressing `tab` twice while inside of node
+  - Return all of the functions/methods nested under another call by typing the desired object/function and double tapping `tab` again
+  - This also applies to variables
+  - Example below:
+    - shows the first time just double tapping `tab`,
+    - then `Array.` + `tab tab`,
+    - then `Array.prototype.` + `tab tab`,
+    - and finally declaring a new variable that's an array and logging the possible array functions with `array_example.` + `tab tab`
+
 ```
-> 
+>
 Array                 ArrayBuffer           Atomics               BigInt
 BigInt64Array         BigUint64Array        Boolean               Buffer
 DataView              Date                  Error                 EvalError
@@ -219,11 +242,10 @@ array_example.length
 
 ```
 
-
-
 - To see what the five arguments that are in the IIFE wrapper function, create a file with just `console.log(arguments);` and call it in node. This returns:
+
 ```
-node app.js 
+node app.js
 [Arguments] {
   '0': {},
   '1': [Function: require] {
@@ -273,30 +295,30 @@ node app.js
 
 ```
 
-
-
 # Some built in modules/libraries in node with some common functions (kinda like the standard library)
 
 ## `path`
+
     - `const path = require("path");`
     - used to find the current path, a file's path, a file's extension, and more
 
+## `fs`
 
-## `fs` 
 - File System, allows for writing, reading and file manipulation
-
 
 - Writing a file
   - takes the name of file, the data, and a callback function which allows access to any errors
   - is an asynchronous function, so keep that in mind
+
 ```
 fs.writeFile("nameAndPathOfFile.txt", dataBeingWrittenToFile, (err) => {
    // call back function
 } )
 ```
 
-- Reading files 
-  - takes file's name and path, the encoding and a callback function that allows access to errors and the data itself 
+- Reading files
+  - takes file's name and path, the encoding and a callback function that allows access to errors and the data itself
+
 ```
 fs.readFile("nameAndPathOfFile.txt", 'utf8', (err, data) => {
 
@@ -304,7 +326,8 @@ fs.readFile("nameAndPathOfFile.txt", 'utf8', (err, data) => {
 ```
 
 ## `url`
-- Used for dealing with, parsing and manipulating URLs 
+
+- Used for dealing with, parsing and manipulating URLs
 
 - Parsing a url with `url.parse()`
   - from the docs: `url.parse(urlString[, parseQueryString[, slashesDenoteHost]])`
@@ -345,7 +368,7 @@ Url {
  */
 
 
-// we can get the key value pairs by passing the desired parameters 
+// we can get the key value pairs by passing the desired parameters
 console.log(`parsedURL.host: ${parsedURL.host}`);
 console.log(`parsedURL.href: ${parsedURL.href}`);
 
@@ -353,15 +376,15 @@ console.log(`parsedURL.pathname: ${parsedURL.pathname}`);
 console.log(`parsedURL.protocol: ${parsedURL.protocol}`);
 console.log(`parsedURL.port: ${parsedURL.port}`);
 console.log(parsedURL.query); // this cannot be string formatted since it's an object
-// these are all specific to the actual url that is being parsed, 
-// meaning the parameters of the query object will be different every time 
+// these are all specific to the actual url that is being parsed,
+// meaning the parameters of the query object will be different every time
 console.log(parsedURL.query.q);
 console.log(parsedURL.query.t);
 console.log(parsedURL.query.ia);
 ```
 
-
 ## `http`
+
 - Used for creating servers and manipulating http requests and reponses
 
 - Creating a server with `http.createServer`
@@ -377,7 +400,7 @@ const http = require("http");
 const server = http.createServer((request, response) => {
     response.write("a response the user sees when making a request");
     response.end(); // have to end the response, every time
-    
+
 });
 
 // listening to port 3000, makes a request when going to localhost:3000
@@ -385,15 +408,11 @@ const server = http.createServer((request, response) => {
 server.listen(3000, () => console.log("server is up and runnning on port 3000!"));
 ```
 
-
-
 - Console logging the request that is passed to the createServer callback function, if you do this you'll get a huge JSON object which contains lings like the url, the headers, and a few hundred more things
 
-
-
 ## `os`
-- Perhaps less common, but `os` can return some interesting information about the operating system that is running node
 
+- Perhaps less common, but `os` can return some interesting information about the operating system that is running node
 
 ```
 const os = require("os");
