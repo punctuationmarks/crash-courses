@@ -1,6 +1,10 @@
+
+TODO:
+Incorporate [this repo](https://github.com/punctuationmarks/Linux-tips-for-deployment) and then deprecate it
+
+```bash
 # basics
-sudo apt update &&
-sudo apt upgrade -y &&
+sudo apt update && sudo apt upgrade -y
 
 # docker
 sudo apt install apt-transport-https ca-certificates curl software-properties-common &&
@@ -11,3 +15,4 @@ sudo apt update &&
 apt-cache policy docker-ce
 # actually installing docker
 sudo apt install docker-ce
+```
